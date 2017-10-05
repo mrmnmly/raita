@@ -1,5 +1,5 @@
 {
-  "name": "writr",
+  "name": "mrwrittr",
   "version": "1.0.0",
   "description": "static site generator with web interface",
   "main": "index.js",
@@ -24,12 +24,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mrmnmly/writr.git"
+    "url": "git+https://github.com/mrmnmly/mrwrittr.git"
   },
   "author": "mrmnmly",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mrmnmly/writr/issues"
+    "url": "https://github.com/mrmnmly/mrwrittr/issues"
   },
-  "homepage": "https://github.com/mrmnmly/writr#readme"
+  "homepage": "https://github.com/mrmnmly/mrwrittr#readme"
 }
