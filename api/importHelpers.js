@@ -66,3 +66,8 @@ const getFiles = function(pathString) {
     });
   });
 }
+
+module.exports.getDirectories = getDirectories;
+module.exports.getFile = getFile;
+module.exports.getImage = getImage;
+module.exports.getFiles = getFiles;
