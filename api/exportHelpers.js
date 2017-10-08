@@ -4,8 +4,7 @@ const wmd = require('wmd');
 const pug = require('pug');
 const path = require('path');
 
-// TODO
-const importHelpers = require('./importHelpers');
+const {getFile, getFiles} = require('./importHelpers');
 
 // compile item themes (files that contains '-item.pug' string in the filename)
 const compileItemThemes = function (itemThemes) {
@@ -25,9 +24,9 @@ const compileItemThemes = function (itemThemes) {
         const themePath = path.join(__dirname, './../theme/', itemThemes[item]);
         rssJson[name] = [];
         // get theme file
-        importHelpers.getFile(themePath, themeFile => {
+        getFile(themePath, themeFile => {
           // get filenames of content source item files
-          importHelpers.getFiles(itemsPath, itemFiles => {
+          getFiles(itemsPath, itemFiles => {
             for (let file in itemFiles) {
               // sourceFilePath points on source file with content to parse
               const sourceFilePath = path.join(itemsPath, itemFiles[file]);
