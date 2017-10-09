@@ -33,7 +33,7 @@ const getListFolderContents = function(folderName) {
   });
 }
 
-const getListItems = async function() {
+const getListItems = function() {
   return new Promise((resolve, reject) => {
     getListFolders().then(folders => {
       let promises = [];
@@ -41,16 +41,21 @@ const getListItems = async function() {
       for (let folder in folders) {
         const promise = getListFolderContents(folders[folder]);
         promises.push(promise);
-        result[folders[folder]] = [];
       }
       Promise.all(promises).then((folderContents) => {
         for (let content in folderContents) {
-          result[folderContents[content][0].folder] = folderContents[content];
+          if (folderContents[content].length) {
+            result[folderContents[content][0].folder] = folderContents[content];
+          }
         }
         resolve(result);
       });
     });
   });
+}
+
+const getPagesEntries = function() {
+
 }
 
 module.exports.getListFolders = getListFolders;
