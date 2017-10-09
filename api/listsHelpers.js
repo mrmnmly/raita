@@ -1,6 +1,3 @@
-const fs = require('fs-extra');
-const wmd = require('wmd');
-const pug = require('pug');
 const path = require('path');
 
 const {getDirectories, getFiles} = require('./importHelpers');
