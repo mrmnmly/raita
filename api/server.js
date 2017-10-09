@@ -5,9 +5,8 @@ const wmd = require('wmd');
 const path = require('path');
 
 const {getFile} = require('./importHelpers');
-const {getFileList} = require('./adminHelpers');
-// const {deployViaFtp} = require('./exportHelpers');
 const {decodeBase64Image, slugify} = require('./helpers');
+const {getListItems} = require('./listsHelpers');
 
 
 const app = express();
@@ -45,18 +44,18 @@ app.get('/', function(req, res){
 
 // // get list of all files
 app.get('/post-list/', function(req, res){
-	getFileList().then(fileList => {
+	getListItems().then(fileList => {
     res.send(fileList);
   });
 });
 
 // // get single file contents
-// app.get('/post/:catname/:filename', function(req, res){
-// 	var url = __dirname + '/../source/' + req.params.catname + '/' + req.params.filename;
-// 	var file = getFile(url);
-// 	var md = wmd(file);
-// 	res.send(md);
-// });
+app.get('/post/:catname/:filename', function(req, res){
+	var url = __dirname + '/../source/' + req.params.catname + '/' + req.params.filename;
+	var file = getFile(url);
+	var md = wmd(file);
+	res.send(md);
+});
 
 // // get single file (separate page, not category entry) contents
 // app.get('/page/:filename', function(req, res){
