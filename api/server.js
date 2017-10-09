@@ -6,7 +6,7 @@ const path = require('path');
 
 const {getFile} = require('./importHelpers');
 const {decodeBase64Image, slugify} = require('./helpers');
-const {getListItems} = require('./listsHelpers');
+const {getListItems, getPagesEntries, getSiteContents} = require('./listsHelpers');
 
 
 const app = express();
@@ -42,8 +42,22 @@ app.get('/', function(req, res){
   });
 });
 
-// // get list of all files
-app.get('/post-list/', function(req, res){
+// get list of all files
+app.get('/site-contents/', function(req, res){
+	getSiteContents().then(fileList => {
+    res.send(fileList);
+  });
+});
+
+// get list of all page files
+app.get('/page-contents/', function(req, res){
+	getPagesEntries().then(fileList => {
+    res.send(fileList);
+  });
+});
+
+// get list of all list files
+app.get('/list-contents/', function(req, res){
 	getListItems().then(fileList => {
     res.send(fileList);
   });

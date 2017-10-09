@@ -45,7 +45,7 @@ const getListItems = function() {
       Promise.all(promises).then((folderContents) => {
         for (let content in folderContents) {
           if (folderContents[content].length) {
-            result[folderContents[content][0].folder] = folderContents[content];
+            result[folderContents[content][0].category] = folderContents[content];
           }
         }
         resolve(result);
@@ -55,9 +55,40 @@ const getListItems = function() {
 }
 
 const getPagesEntries = function() {
+  const sourcePath = path.join(__dirname, '/../source/');
+  let pages = {};
+  return new Promise((resolve, reject) => {
+    getFiles(sourcePath).then(files => {
+      for (let file in files) {
+        const obj = {
+          file: files[file],
+          name: files[file].slice(0, -3),
+          path: path.join(sourcePath, files[file])
+        }
+        pages[obj.name] = obj;
+      }
+      resolve(pages);
+    });
+  });
+}
 
+const getSiteContents = function() {
+  let results = {};
+  return new Promise((resolve, reject) => {
+    getListItems().then(listItems => {
+      getPagesEntries().then(pageItems => {
+        results = {
+          lists: {...listItems},
+          pages: {...pageItems}
+        }
+        resolve(results);
+      });
+    });
+  });
 }
 
 module.exports.getListFolders = getListFolders;
 module.exports.getListFolderContents = getListFolderContents;
 module.exports.getListItems = getListItems;
+module.exports.getPagesEntries = getPagesEntries;
+module.exports.getSiteContents = getSiteContents;
