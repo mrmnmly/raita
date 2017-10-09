@@ -9,7 +9,22 @@ const getDirectories = function(pathString) {
   return new Promise((resolve, reject) => {
     fs.readdir(pathString, (err, files) => {
       if (err) {
-        reject(err);
+        resolve([]);
+      }
+      files = files.filter(obj => {
+        return fs.statSync(path.join(pathString, obj)).isDirectory();
+      });
+      resolve(files);
+    })
+  });
+}
+
+// function that returns list of files & directories inside given path
+const getFolderContents = function(pathString) {
+  return new Promise((resolve, reject) => {
+    fs.readdir(pathString, (err, files) => {
+      if (err) {
+        resolve([]);
       }
       resolve(files);
     })
@@ -22,7 +37,7 @@ const getFile = function(pathString) {
     fs.readFile(pathString, 'utf8', (err, data) => {
       if (err) {
         console.log('There was a problem when reading a file: ', pathString);
-        reject(err);
+        resolve('');
       }
       resolve(data);
     })
@@ -35,7 +50,7 @@ const getImage = function(pathString) {
     fs.readFile(pathString, 'binary', (err, data) => {
       if (err) {
         console.log('There was a problem when reading a image file: ', pathString);
-        reject(err);
+        resolve('');
       }
       resolve(data);
     });
@@ -48,7 +63,7 @@ const getFiles = function(pathString) {
     fs.readdir(pathString, (err, files) => {
       if (err) {
         console.log('There was a problem when reading a folder path: ', pathString, err);
-        reject(err);
+        resolve([]);
       }
       if (files && files.length) {
         let filesArray = [];
@@ -63,6 +78,7 @@ const getFiles = function(pathString) {
 }
 
 module.exports.getDirectories = getDirectories;
+module.exports.getFolderContents = getFolderContents;
 module.exports.getFile = getFile;
 module.exports.getImage = getImage;
 module.exports.getFiles = getFiles;
