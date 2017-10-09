@@ -63,21 +63,23 @@ app.get('/list-contents/', function(req, res){
   });
 });
 
-// // get single file contents
-app.get('/post/:catname/:filename', function(req, res){
-	var url = __dirname + '/../source/' + req.params.catname + '/' + req.params.filename;
-	var file = getFile(url);
-	var md = wmd(file);
-	res.send(md);
+// get contents for single list entry
+app.get('/list-item/:listName/:fileName', function(req, res){
+  const url = path.join(__dirname, '/../source/' + req.params.listName, req.params.fileName);
+	getFile(url).then(fileData => {
+	  const md = wmd(fileData);
+  	res.send(md);
+  });
 });
 
-// // get single file (separate page, not category entry) contents
-// app.get('/page/:filename', function(req, res){
-// 	var url = __dirname + '/../source/' + req.params.filename;
-// 	var file = getFile(url);
-// 	var md = wmd(file);
-// 	res.send(md);
-// });
+// get contents for single page
+app.get('/page/:fileName', function(req, res){
+  const url = path.join(__dirname, '/../source/', req.params.fileName)
+	getFile(url).then(fileData => {
+    const md = wmd(fileData);
+    res.send(md);
+  });
+});
 
 // // parse markdown to html
 // app.get('/parse2html/', function(req, res){
