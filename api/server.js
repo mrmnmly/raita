@@ -5,8 +5,8 @@ const wmd = require('wmd');
 const path = require('path');
 
 const {getFile} = require('./importHelpers');
-const {decodeBase64Image, slugify} = require('./helpers');
-const {getListItems, getPagesEntries, getSiteContents} = require('./listsHelpers');
+const {decodeBase64Image} = require('./helpers');
+const {getListItems, getPagesEntries, getSiteContents} = require('./contentHelpers');
 
 
 const app = express();
@@ -31,7 +31,7 @@ app.use('/js', express.static(__dirname + '/static/js'));
 // set css image path
 app.use('/img', express.static(__dirname + '/static/img'));
 // set image assets path
-app.use('/public', express.static(__dirname + '/../public'));
+app.use('/public', express.static(__dirname + '/../output/public'));
 // set preview url to see generated content
 app.use('/preview', express.static(__dirname + '/../output'));
 
@@ -81,49 +81,49 @@ app.get('/page/:fileName', function(req, res){
   });
 });
 
-// // parse markdown to html
-// app.get('/parse2html/', function(req, res){
-// 	var txt = req.query.markdown;
-// 	txt = wmd(txt);
-// 	res.send(txt.html);
-// });
+// parse markdown to html
+app.get('/parse2html/', function(req, res){
+	const txt = req.query.markdown;
+	txt = wmd(txt);
+	res.send(txt.html);
+});
 
-// // save image to public folder, append timestamp to name, return url to file
-// app.get('/save-img/', function(req, res){
-// 	var img = req.query.file;
-// 	var file = decodeBase64Image(img);
-// 	var name = req.query.name;
-// 	var filename = Number(new Date()) + '-' + name;
-// 	fs.writeFile(__dirname + '/../public/' + filename, file.data, 'base64', function(err){
-// 		if(err){
-// 			console.warn(err);
-// 		}else{
-// 			var safePath = encodeURIComponent(filename.trim());
-// 			var href = ' ![' + name + '](/public/' + safePath + ')';
-// 			res.send(href);
-// 		}
-// 	});
-// });
+// save image to public folder, append timestamp to name, return url to file
+app.get('/save-img/', function(req, res){
+	const img = req.query.file;
+	const file = decodeBase64Image(img);
+	const name = req.query.name;
+	const filename = Number(new Date()) + '-' + name;
 
-// // save currently edited file
-// app.post('/save-file/', function(req, res){
-// 	var content = req.body.content;
-// 	var fileUrl = req.body.url;
-// 	var customs = req.body.customs;
-// 	var txt = '';
-// 	for(var key in customs){
-// 		txt += key + ': ' + customs[key] + '\n';
-// 	}
-// 	txt += '\n' + content;
-// 	console.log(fileUrl)
-// 	fs.writeFile(fileUrl, txt, function(err){
-// 		if(err){
-// 			console.warn(err);
-// 		}
-// 		console.log('file saved!');
-// 		res.sendStatus(200);
-// 	});
-// });
+  fs.writeFile(path.join(__dirname, '/../output/public/', filename), file.data, 'base64', err => {
+    if (err) {
+      res.send(' File error :( ');
+    }
+    const safePath = encodeURIComponent(filename.trim());
+    const mdAnchor = ` ![${name}](${path.join('/public/', safePath)})`;
+    res.send(mdAnchor);
+  })
+});
+
+// save currently edited file
+app.post('/save-file/', function(req, res){
+	const content = req.body.content;
+	const fileUrl = req.body.url;
+  const customFields = req.body.customFields;
+	let txt;
+	for(let key in customFields){
+		txt += key + ': ' + customFields[key] + '\n';
+	}
+	txt += '\n' + content;
+	fs.writeFile(fileUrl, txt, function(err){
+		if(err){
+      console.warn(err);
+      res.sendStatus(500);
+		}
+		console.log('file saved!');
+		res.sendStatus(200);
+	});
+});
 
 // app.post('/save-template/', function(req, res){
 // 	var content = req.body.content;
@@ -137,10 +137,10 @@ app.get('/page/:fileName', function(req, res){
 // 	});
 // })
 
-// // compile content to static site (located in /output folder in root directory)
-// app.get('/compile-all/', function(req, res){
-// 	compileEverything();
-// });
+// compile content to static site (located in /output folder in root directory)
+app.get('/compile-all/', function(req, res){
+	compileEverything();
+});
 
 // app.post('/compile-list/', function(req, res){
 // 	var list = req.body.list;
