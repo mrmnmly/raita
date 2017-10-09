@@ -5,6 +5,7 @@ const pug = require('pug');
 const path = require('path');
 
 const {getFile, getFiles} = require('./importHelpers');
+const {slugify} = require('./helpers');
 
 // compile item themes (files that contains '-item.pug' string in the filename)
 const compileItemThemes = function (itemThemes) {
@@ -24,17 +25,33 @@ const compileItemThemes = function (itemThemes) {
         const themePath = path.join(__dirname, './../theme/', itemThemes[item]);
         rssJson[name] = [];
         // get theme file
-        getFile(themePath, themeFile => {
+        getFile(themePath).then(themeFile => {
           // get filenames of content source item files
-          getFiles(itemsPath, itemFiles => {
+          getFiles(itemsPath).then(itemFiles => {
             for (let file in itemFiles) {
               // sourceFilePath points on source file with content to parse
               const sourceFilePath = path.join(itemsPath, itemFiles[file]);
-              
+              getFile(sourceFilePath).then(sourceContent => {
+                const parsedContent = wmd(sourceContent);
+                const fileContent = pug.render(themeFile, parsedContent);
+                const slug = slugify(parsedContent.metadata.title);
+                const outputFolderPath = path.join(outputPath, slug);
+                fs.emptyDir(outputFolderPath).then(() => {
+                  const outputFilePath = path.join(outputFolderPath, 'index.html');
+                  const url = slug + '/';
+                  const obj = {
+                    title: parsedContent.metadata.title,
+                    meta: parsedContent.metadata,
+                    url: url
+                  }
+                  rssJson[name].push(obj);
+                });
+              });
             }
-          })
+          });
         });
       }
     }
   });
 }
+

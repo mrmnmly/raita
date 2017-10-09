@@ -18,13 +18,13 @@ const getFileList = function() {
           let promisesArray = [];
           for (let item in itemDirectories) {
             const p = new Promise((res, rej) => {
-              const currentFolder = path.join(__dirname, '/../source/', itemDirectories[item]);
+              const currentFolder = path.join(__dirname, '/../source/', itemDirectories[item], '/');
               getFiles(currentFolder).then(files => {
                 fileList[itemDirectories[item]] = [];
                 for (let file in files) {
                   const fullFilePath = path.join(currentFolder, files[file]);
                   const obj = {
-                    category: itemDirectories[item],
+                    category: itemDirectories[item].slice(0, -5),
                     file: files[file],
                     path: fullFilePath
                   }
@@ -32,6 +32,8 @@ const getFileList = function() {
                 }
                 fileList[itemDirectories[item]].reverse();
                 res(fileList);
+              }).catch(() => {
+                res([]);
               });
             });
             promisesArray.push(p);
@@ -46,24 +48,12 @@ const getFileList = function() {
             }
             resolve(fileList);
           });
+        }).catch(() => {
+          resolve({});
         });
       }
     });
   });
 }
 
-// helper function for image decoding
-const decodeBase64Image = function(dataString) {
-  const matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
-  if (matches.length !== 3) {
-    return new Error('Invalid input string!');
-  }
-  const response = {
-    type: matches[1],
-    data: new Buffer(matches[2], 'base64')
-  }
-  return response;
-}
-
 module.exports.getFileList = getFileList;
-module.exports.decodeBase64Image = decodeBase64Image;

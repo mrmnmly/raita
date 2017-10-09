@@ -5,19 +5,11 @@ const pug = require('pug');
 const path = require('path');
 
 // function that returns list of directories inside given path
-// returnFullPaths toggles if returned folder contains full paths (not directory name only)
-const getDirectories = function(pathString, returnFullPaths = true) {
+const getDirectories = function(pathString) {
   return new Promise((resolve, reject) => {
     fs.readdir(pathString, (err, files) => {
       if (err) {
         reject(err);
-      }
-      if (returnFullPaths) {
-        let fileList = [];
-        for (let file in files) {
-          list.push(path.join(url, files[file]));
-        }
-        resolve(list);
       }
       resolve(files);
     })
@@ -55,14 +47,17 @@ const getFiles = function(pathString) {
   return new Promise((resolve, reject) => {
     fs.readdir(pathString, (err, files) => {
       if (err) {
-        console.log('There was a problem when reading a folder path: ', pathString);
+        console.log('There was a problem when reading a folder path: ', pathString, err);
         reject(err);
       }
-      let filesArray = [];
-      filesArray = files.filter(obj => {
-        return !fs.statSync(path.join(pathString, obj)).isDirectory();
-      });
-      resolve(filesArray);
+      if (files && files.length) {
+        let filesArray = [];
+        filesArray = files.filter(obj => {
+          return !fs.statSync(path.join(pathString, obj)).isDirectory();
+        });
+        resolve(filesArray);
+      }
+      resolve([]);
     });
   });
 }
