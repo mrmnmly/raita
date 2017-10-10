@@ -6,10 +6,7 @@ const getListFolders = function() {
   const sourcePath = path.join(__dirname, '/../source/');
   return new Promise((resolve, reject) => {
     getDirectories(sourcePath).then(itemDirectories => {
-      const listFolders = itemDirectories.filter(obj => {
-        return obj.indexOf('-list') > -1;
-      });
-      resolve(listFolders);
+      resolve(itemDirectories);
     });
   });
 }
@@ -21,7 +18,6 @@ const getListFolderContents = function(folderName) {
     getFiles(fullFolderPath).then(files => {
       for (let file in files) {
         const obj = {
-          category: folderName.slice(0, -5),
           folder: folderName,
           path: path.join(fullFolderPath, files[file]),
           slug: files[file].split('.')[0]
@@ -45,7 +41,7 @@ const getListItems = function() {
       Promise.all(promises).then((folderContents) => {
         for (let content in folderContents) {
           if (folderContents[content].length) {
-            result[folderContents[content][0].category] = folderContents[content];
+            result[folderContents[content][0].folder] = folderContents[content];
           }
         }
         resolve(result);
