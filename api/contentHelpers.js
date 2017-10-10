@@ -6,10 +6,7 @@ const getListFolders = function() {
   const sourcePath = path.join(__dirname, '/../source/');
   return new Promise((resolve, reject) => {
     getDirectories(sourcePath).then(itemDirectories => {
-      const listFolders = itemDirectories.filter(obj => {
-        return obj.indexOf('-list') > -1;
-      });
-      resolve(listFolders);
+      resolve(itemDirectories);
     });
   });
 }
@@ -21,7 +18,6 @@ const getListFolderContents = function(folderName) {
     getFiles(fullFolderPath).then(files => {
       for (let file in files) {
         const obj = {
-          category: folderName.slice(0, -5),
           folder: folderName,
           path: path.join(fullFolderPath, files[file]),
           slug: files[file].split('.')[0]
@@ -33,7 +29,7 @@ const getListFolderContents = function(folderName) {
   });
 }
 
-const getListItems = async function() {
+const getListItems = function() {
   return new Promise((resolve, reject) => {
     getListFolders().then(folders => {
       let promises = [];
@@ -41,13 +37,47 @@ const getListItems = async function() {
       for (let folder in folders) {
         const promise = getListFolderContents(folders[folder]);
         promises.push(promise);
-        result[folders[folder]] = [];
       }
       Promise.all(promises).then((folderContents) => {
         for (let content in folderContents) {
-          result[folderContents[content][0].folder] = folderContents[content];
+          if (folderContents[content].length) {
+            result[folderContents[content][0].folder] = folderContents[content];
+          }
         }
         resolve(result);
+      });
+    });
+  });
+}
+
+const getPagesEntries = function() {
+  const sourcePath = path.join(__dirname, '/../source/');
+  let pages = {};
+  return new Promise((resolve, reject) => {
+    getFiles(sourcePath).then(files => {
+      for (let file in files) {
+        const obj = {
+          file: files[file],
+          name: files[file].slice(0, -3),
+          path: path.join(sourcePath, files[file])
+        }
+        pages[obj.name] = obj;
+      }
+      resolve(pages);
+    });
+  });
+}
+
+const getSiteContents = function() {
+  let results = {};
+  return new Promise((resolve, reject) => {
+    getListItems().then(listItems => {
+      getPagesEntries().then(pageItems => {
+        results = {
+          lists: {...listItems},
+          pages: {...pageItems}
+        }
+        resolve(results);
       });
     });
   });
@@ -56,3 +86,5 @@ const getListItems = async function() {
 module.exports.getListFolders = getListFolders;
 module.exports.getListFolderContents = getListFolderContents;
 module.exports.getListItems = getListItems;
+module.exports.getPagesEntries = getPagesEntries;
+module.exports.getSiteContents = getSiteContents;
