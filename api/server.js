@@ -13,7 +13,7 @@ const {compileLists, compilePages, compileEverything} = require('./compileHelper
 const app = express();
 
 // support json encoded bodies
-app.use(bodyParser.json()); 
+app.use(bodyParser.json());
 
 // support encoded bodies
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -37,35 +37,35 @@ app.use('/public', express.static(__dirname + '/../output/public'));
 app.use('/preview', express.static(__dirname + '/../output'));
 
 // home route
-app.get('/', function(req, res){
+app.get('/', (req, res) => {
 	getFileList().then(fileList => {
   	res.render('index', { fileList: fileList, dirname: __dirname });
   });
 });
 
 // get list of all files
-app.get('/site-contents/', function(req, res){
+app.get('/site-contents/', (req, res) => {
 	getSiteContents().then(fileList => {
     res.send(fileList);
   });
 });
 
 // get list of all page files
-app.get('/page-contents/', function(req, res){
+app.get('/page-contents/', (req, res) => {
 	getPagesEntries().then(fileList => {
     res.send(fileList);
   });
 });
 
 // get list of all list files
-app.get('/list-contents/', function(req, res){
+app.get('/list-contents/', (req, res) => {
 	getListItems().then(fileList => {
     res.send(fileList);
   });
 });
 
 // get contents for single list entry
-app.get('/list-item/:listName/:fileName', function(req, res){
+app.get('/list-item/:listName/:fileName', (req, res) => {
   const url = path.join(__dirname, '/../source/' + req.params.listName, req.params.fileName);
 	getFile(url).then(fileData => {
 	  const md = wmd(fileData);
@@ -74,7 +74,7 @@ app.get('/list-item/:listName/:fileName', function(req, res){
 });
 
 // get contents for single page
-app.get('/page/:fileName', function(req, res){
+app.get('/page/:fileName', (req, res) => {
   const url = path.join(__dirname, '/../source/', req.params.fileName)
 	getFile(url).then(fileData => {
     const md = wmd(fileData);
@@ -83,14 +83,14 @@ app.get('/page/:fileName', function(req, res){
 });
 
 // parse markdown to html
-app.get('/parse2html/', function(req, res){
+app.get('/parse2html/', (req, res) => {
 	const txt = req.query.markdown;
 	txt = wmd(txt);
 	res.send(txt.html);
 });
 
 // save image to public folder, append timestamp to name, return url to file
-app.post('/save-img/', function(req, res){
+app.post('/save-img/', (req, res) => {
 	const img = req.query.file;
 	const file = decodeBase64Image(img);
 	const name = req.query.name;
@@ -107,7 +107,7 @@ app.post('/save-img/', function(req, res){
 });
 
 // save currently edited file
-app.post('/save-file/', function(req, res){
+app.post('/save-file/', (req, res) => {
 	const content = req.body.content;
 	const fileUrl = req.body.url;
   const customFields = req.body.customFields;
@@ -127,21 +127,21 @@ app.post('/save-file/', function(req, res){
 });
 
 // compile all lists
-app.post('/compile-lists/', function(req, res){
+app.post('/compile-lists/', (req, res) => {
 	compileLists().then(() => {
 		res.sendStatus(200);
   });
 });
 
 // compile all pages
-app.post('/compile-pages/', function(req, res){
+app.post('/compile-pages/', (req, res) => {
 	compilePages().then(() => {
 		res.sendStatus(200);
   });
 });
 
 // compile everything
-app.post('/compile-all/', function(req, res){
+app.post('/compile-all/', (req, res) => {
 	compileEverything().then(() => {
 		res.sendStatus(200);
   });
@@ -153,7 +153,7 @@ app.post('/compile-all/', function(req, res){
 
 
 // get all theme file urls from current theme folder
-app.get('/get-all-theme-contents/', function(req, res){
+app.get('/get-all-theme-contents/', (req, res) => {
 	getThemeData().then(themeData => {
 		res.send(themeData);
 	});
