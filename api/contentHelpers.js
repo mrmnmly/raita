@@ -1,6 +1,7 @@
 const path = require('path');
+const wmd = require('wmd');
 
-const {getDirectories, getFiles} = require('./importHelpers');
+const {getDirectories, getFiles, getFile} = require('./importHelpers');
 
 const getListFolders = function() {
   const sourcePath = path.join(__dirname, '/../source/');
@@ -86,8 +87,26 @@ const getSiteContents = function() {
   });
 }
 
+const createContextForList = function(folderContents) {
+  let promises = [];
+  return new Promise((resolve, reject) => {
+    for (let file in folderContents) {
+      let promise = getFile(folderContents[file].path);
+      promises.push(promise);
+    }
+    Promise.all(promises).then(results => {
+      for (let file in folderContents) {
+        const content = wmd(results[file]);
+        folderContents[file].meta = content.metadata;
+      }
+      resolve(folderContents);
+    });
+  });
+}
+
 module.exports.getListFolders = getListFolders;
 module.exports.getListFolderContents = getListFolderContents;
 module.exports.getListItems = getListItems;
 module.exports.getPagesEntries = getPagesEntries;
 module.exports.getSiteContents = getSiteContents;
+module.exports.createContextForList = createContextForList;

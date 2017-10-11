@@ -5,7 +5,7 @@ const path = require('path');
 
 const {getFile, getFiles} = require('./importHelpers');
 const {slugify} = require('./helpers');
-const {getListFolders, getListFolderContents} = require('./contentHelpers');
+const {getListFolders, getListFolderContents, createContextForList} = require('./contentHelpers');
 const {getListTheme} = require('./themeHelpers');
 
 
@@ -28,18 +28,20 @@ const compileSingleList = function(listName) {
   return new Promise((resolve, reject) => {
     getListTheme(listName).then(theme => {
       getListFolderContents(listName).then(contents => {
-        const context = {
-          context: {
-            list: contents
+        createContextForList(contents).then(listContext => {
+          const context = {
+            context: {
+              list: listContext
+            }
           }
-        }
-        const fileToSave = pug.render(theme, context);
-        const outputPath = path.join(__dirname, './../output/', listName, '/');
-        fs.emptyDir(outputPath).then(() => {
-          fs.outputFile(path.join(outputPath, 'index.html'), fileToSave).then(() => {
-            resolve();
+          const fileToSave = pug.render(theme, context);
+          const outputPath = path.join(__dirname, './../output/', listName, '/');
+          fs.emptyDir(outputPath).then(() => {
+            fs.outputFile(path.join(outputPath, 'index.html'), fileToSave).then(() => {
+              resolve();
+            });
           });
-        })
+        });
       });
     });
   });
