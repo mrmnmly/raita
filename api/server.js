@@ -8,7 +8,7 @@ const {getFile} = require('./importHelpers');
 const {decodeBase64Image} = require('./helpers');
 const {getListItems, getPagesEntries, getSiteContents} = require('./contentHelpers');
 const {getThemeData} = require('./themeHelpers');
-const {compileLists} = require('./compileHelpers');
+const {compileLists, compilePages} = require('./compileHelpers');
 
 const app = express();
 
@@ -129,11 +129,16 @@ app.post('/save-file/', function(req, res){
 // compile all lists
 app.get('/compile-lists/', function(req, res){
 	compileLists().then(() => {
-		console.log('All lists are compiled!');
 		res.sendStatus(200);
   });
 });
 
+// compile all pages
+app.get('/compile-pages/', function(req, res){
+	compilePages().then(() => {
+		res.sendStatus(200);
+  });
+});
 
 // =======================================
 // =					EXTRA API ENDPOINTS			 	 =
