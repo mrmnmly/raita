@@ -10,7 +10,7 @@ const {getListTheme, getPageTheme, getListItemTheme} = require('./themeHelpers')
 const {createContextForList, createContextFromFile} = require('./contextHelpers');
 
 
-const compileLists = function() {
+const compileLists = () => {
   let promises = [];
   return new Promise((resolve, reject) => {
     getListFolders().then(lists => {
@@ -26,7 +26,7 @@ const compileLists = function() {
   })
 }
 
-const compileSingleList = function(listName) {
+const compileSingleList = (listName) => {
   return new Promise((resolve, reject) => {
     getListTheme(listName).then(theme => {
       getListFolderContents(listName).then(contents => {
@@ -53,7 +53,7 @@ const compileSingleList = function(listName) {
 }
 
 // compiles all entries that are in the list
-const compileListItems = function(listItems) {
+const compileListItems = (listItems) => {
   let promises = [];
   return new Promise((resolve, reject) => {
     for (let item in listItems) {
@@ -72,7 +72,7 @@ const compileListItems = function(listItems) {
 }
 
 // compile single list entry
-const compileListItem = function(contextObj) {
+const compileListItem = (contextObj) => {
   return new Promise((resolve, reject) => {
     createContextFromFile(contextObj.path).then(context => {
       getListItemTheme(contextObj.folder).then(theme => {
@@ -90,7 +90,7 @@ const compileListItem = function(contextObj) {
 }
 
 // compile all pages
-const compilePages = function() {
+const compilePages = () => {
   let promises = [];
   return new Promise((resolve, reject) => {
     getPagesEntries().then(pages => {
@@ -107,7 +107,7 @@ const compilePages = function() {
 }
 
 // compile single page
-const compileSinglePage = function(pageName) {
+const compileSinglePage = (pageName) => {
   return new Promise((resolve, reject) => {
     getPageTheme(pageName).then(theme => {
       const pageContextUrl = path.join(__dirname, './../source/', `${pageName}.md`);
@@ -127,7 +127,7 @@ const compileSinglePage = function(pageName) {
   });
 }
 
-const compileEverything = function() {
+const compileEverything = () => {
   return new Promise((resolve, reject) => {
     compileLists().then(() => {
       compilePages().then(() => {

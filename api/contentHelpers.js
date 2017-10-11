@@ -3,7 +3,7 @@ const wmd = require('wmd');
 
 const {getDirectories, getFiles, getFile} = require('./importHelpers');
 
-const getListFolders = function() {
+const getListFolders = () => {
   const sourcePath = path.join(__dirname, '/../source/');
   return new Promise((resolve, reject) => {
     getDirectories(sourcePath).then(itemDirectories => {
@@ -12,7 +12,7 @@ const getListFolders = function() {
   });
 }
 
-const getListFolderContents = function(folderName) {
+const getListFolderContents = (folderName) => {
   const fullFolderPath = path.join(__dirname, '/../source/', folderName, '/');
   let folderContents = [];
   return new Promise((resolve, reject) => {
@@ -32,7 +32,7 @@ const getListFolderContents = function(folderName) {
   });
 }
 
-const getListItems = function() {
+const getListItems = () => {
   return new Promise((resolve, reject) => {
     getListFolders().then(folders => {
       let promises = [];
@@ -53,7 +53,7 @@ const getListItems = function() {
   });
 }
 
-const getPagesEntries = function() {
+const getPagesEntries = () => {
   const sourcePath = path.join(__dirname, '/../source/');
   let pages = {};
   return new Promise((resolve, reject) => {
@@ -72,7 +72,7 @@ const getPagesEntries = function() {
   });
 }
 
-const getSiteContents = function() {
+const getSiteContents = () => {
   let results = {};
   return new Promise((resolve, reject) => {
     getListItems().then(listItems => {
