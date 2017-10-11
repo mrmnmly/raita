@@ -3,7 +3,7 @@ const wmd = require('wmd');
 const pug = require('pug');
 const path = require('path');
 
-const {getDirectories, getFiles} = require('./importHelpers');
+const {getDirectories, getFiles, getFile} = require('./importHelpers');
 const config = require('./../config.json');
 
 const getListThemes = function() {
@@ -31,7 +31,6 @@ const getThemeFolderItems = function(pathString) {
 
 const mapThemeFoldersToObject = function(folders) {
   let mapped = {};
-  console.log(folders)
   for (let folder in folders) {
     mapped[folders[folder]] = {};
   }
@@ -61,6 +60,56 @@ const getThemeData = function() {
   });
 }
 
+// retrieves theme file based on provided content markdown object
+const getThemeFile = function(contentObj) {
+  return new Promise((resolve, reject) => {
+    if (contentObj.type === 'page') {
+      getPageTheme(contentObj.slug).then(theme => {
+        resolve(theme);
+      });
+    } else {
+      getListItemTheme(contentObj.folder).then(theme => {
+        resolve(theme);
+      });
+    }
+  });
+}
+
+// get theme for page (based on page slug)
+const getPageTheme = function(pageName) {
+  return new Promise((resolve, reject) => {
+    const themeUrl = path.join(__dirname, './../theme/', config.theme, `${pageName}.pug`);
+    getFile(themeUrl).then(data => {
+      resolve(data);
+    });
+  });
+}
+
+// get theme for list item (based on item's parent folder)
+const getListItemTheme = function(itemFolder) {
+  return new Promise((resolve, reject) => {
+    const themeUrl = path.join(__dirname, './../theme/', config.theme, '/', itemFolder, '/item.pug');
+    getFile(themeUrl).then(data => {
+      resolve(data);
+    });
+  });
+}
+
+// get theme for list (based on list name)
+const getListTheme = function(listName) {
+  return new Promise((resolve, reject) => {
+    const themeUrl = path.join(__dirname, './../theme/', config.theme, '/', listName, '/list.pug');
+    getFile(themeUrl).then(data => {
+      resolve(data);
+    });
+  });
+}
+
+
 module.exports.getListThemes = getListThemes;
 module.exports.getThemeFolderItems = getThemeFolderItems;
 module.exports.getThemeData = getThemeData;
+module.exports.getThemeFile = getThemeFile;
+module.exports.getPageTheme = getPageTheme;
+module.exports.getListItemTheme = getListItemTheme;
+module.exports.getListTheme = getListTheme;
