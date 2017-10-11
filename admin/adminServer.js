@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-const expressVue = require('/');
+const expressVue = require('express-vue');
 
 const createAdminServer = () => {
   const app = express();
@@ -16,10 +16,10 @@ const createAdminServer = () => {
   app.use(expressVueMiddleware);
 
   app.get('/', (req, res) => {
-
-  })
+    res.renderVue('main', {}, {});
+  });
 
   app.listen(4000);
 }
 
-modules.export.createAdminServer = createAdminServer;
+module.exports.createAdminServer = createAdminServer;

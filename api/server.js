@@ -9,6 +9,7 @@ const {decodeBase64Image} = require('./helpers');
 const {getListItems, getPagesEntries, getSiteContents} = require('./contentHelpers');
 const {getThemeData} = require('./themeHelpers');
 const {compileLists, compilePages, compileEverything} = require('./compileHelpers');
+const {createAdminServer} = require('./../admin/adminServer');
 
 const app = express();
 
@@ -200,3 +201,4 @@ app.get('/get-all-theme-contents/', (req, res) => {
 
 // server start
 app.listen(3000);
+createAdminServer();
