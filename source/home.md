@@ -1,1 +1,3 @@
-# a web crafter.
+title: home page
+
+## the web crafter.

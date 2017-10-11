@@ -111,14 +111,27 @@ const compileSinglePage = function(pageName) {
   return new Promise((resolve, reject) => {
     getPageTheme(pageName).then(theme => {
       const pageContextUrl = path.join(__dirname, './../source/', `${pageName}.md`);
-      const outputPath = path.join(__dirname, './../output/', pageName, '/');
+      let outputPath = path.join(__dirname, './../output/', pageName, '/');
       createContextFromFile(pageContextUrl).then(context => {
         const fileToSave = pug.render(theme, context);
         fs.emptyDir(outputPath).then(() => {
+          if (pageName === 'home') {
+            outputPath = path.join(__dirname, './../output/');
+          }
           fs.outputFile(path.join(outputPath, 'index.html'), fileToSave).then(() => {
             resolve();
           });
         });
+      });
+    });
+  });
+}
+
+const compileEverything = function() {
+  return new Promise((resolve, reject) => {
+    compileLists().then(() => {
+      compilePages().then(() => {
+        resolve();
       });
     });
   });
@@ -130,3 +143,4 @@ module.exports.compileListItems = compileListItems;
 module.exports.compileListItem = compileListItem;
 module.exports.compilePages = compilePages;
 module.exports.compileSinglePage = compileSinglePage;
+module.exports.compileEverything = compileEverything;
