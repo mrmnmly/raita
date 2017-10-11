@@ -20,7 +20,9 @@ const getListFolderContents = function(folderName) {
         const obj = {
           folder: folderName,
           path: path.join(fullFolderPath, files[file]),
-          slug: files[file].split('.')[0]
+          slug: files[file].split('.')[0],
+          file: files[file],
+          type: 'list-item'
         }
         folderContents.push(obj);
       }
@@ -58,10 +60,11 @@ const getPagesEntries = function() {
       for (let file in files) {
         const obj = {
           file: files[file],
-          name: files[file].slice(0, -3),
-          path: path.join(sourcePath, files[file])
+          slug: files[file].slice(0, -3),
+          path: path.join(sourcePath, files[file]),
+          type: 'page'
         }
-        pages[obj.name] = obj;
+        pages[obj.slug] = obj;
       }
       resolve(pages);
     });
