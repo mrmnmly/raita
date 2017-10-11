@@ -1,11 +1,11 @@
 
 // helper function that convert string to slug
-const slugify = function(txt){
+const slugify = (txt) => {
   return txt.toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'_').replace(/[^\w-]+/g,'');
 }
 
 // helper function for image decoding
-const decodeBase64Image = function(dataString) {
+const decodeBase64Image = (dataString) => {
   const matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
   if (matches.length !== 3) {
     return new Error('Invalid input string!');

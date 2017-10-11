@@ -5,7 +5,7 @@ const pug = require('pug');
 const path = require('path');
 
 // function that returns list of directories inside given path
-const getDirectories = function(pathString) {
+const getDirectories = (pathString) => {
   return new Promise((resolve, reject) => {
     fs.readdir(pathString, (err, files) => {
       if (err) {
@@ -20,7 +20,7 @@ const getDirectories = function(pathString) {
 }
 
 // function that returns list of files & directories inside given path
-const getFolderContents = function(pathString) {
+const getFolderContents = (pathString) => {
   return new Promise((resolve, reject) => {
     fs.readdir(pathString, (err, files) => {
       if (err) {
@@ -32,7 +32,7 @@ const getFolderContents = function(pathString) {
 }
 
 // function that returns contents of the given file path
-const getFile = function(pathString) {
+const getFile = (pathString) => {
   return new Promise((resolve, reject) => {
     fs.readFile(pathString, 'utf8', (err, data) => {
       if (err) {
@@ -45,7 +45,7 @@ const getFile = function(pathString) {
 }
 
 // function that returns binary data from given file path
-const getImage = function(pathString) {
+const getImage = (pathString) => {
   return new Promise((resolve, reject) => {
     fs.readFile(pathString, 'binary', (err, data) => {
       if (err) {
@@ -58,7 +58,7 @@ const getImage = function(pathString) {
 }
 
 // function that returns files in given folder path
-const getFiles = function(pathString) {
+const getFiles = (pathString) => {
   return new Promise((resolve, reject) => {
     fs.readdir(pathString, (err, files) => {
       if (err) {

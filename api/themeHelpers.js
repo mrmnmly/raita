@@ -6,7 +6,7 @@ const path = require('path');
 const {getDirectories, getFiles, getFile} = require('./importHelpers');
 const config = require('./../config.json');
 
-const getListThemes = function() {
+const getListThemes = () => {
   const themePath = path.join(__dirname, './../theme/', config.theme, '/');
   return new Promise((resolve,reject) => {
     getDirectories(themePath).then(folders => {
@@ -15,7 +15,7 @@ const getListThemes = function() {
   });
 }
 
-const getThemeFolderItems = function(pathString) {
+const getThemeFolderItems = (pathString) => {
   const folderPath = pathString === '/' ?
     path.join(__dirname, './../theme/', config.theme, '/') :
     path.join(__dirname, './../theme/', config.theme, pathString, '/');
@@ -29,7 +29,7 @@ const getThemeFolderItems = function(pathString) {
   });
 }
 
-const mapThemeFoldersToObject = function(folders) {
+const mapThemeFoldersToObject = (folders) => {
   let mapped = {};
   for (let folder in folders) {
     mapped[folders[folder]] = {};
@@ -37,7 +37,7 @@ const mapThemeFoldersToObject = function(folders) {
   return mapped;
 }
 
-const getThemeData = function() {
+const getThemeData = () => {
   let data = {};
   let promises = [];
   return new Promise((resolve, reject) => {
@@ -61,7 +61,7 @@ const getThemeData = function() {
 }
 
 // retrieves theme file based on provided content markdown object
-const getThemeFile = function(contentObj) {
+const getThemeFile = (contentObj) => {
   return new Promise((resolve, reject) => {
     if (contentObj.type === 'page') {
       getPageTheme(contentObj.slug).then(theme => {
@@ -76,7 +76,7 @@ const getThemeFile = function(contentObj) {
 }
 
 // get theme for page (based on page slug)
-const getPageTheme = function(pageName) {
+const getPageTheme = (pageName) => {
   return new Promise((resolve, reject) => {
     const themeUrl = path.join(__dirname, './../theme/', config.theme, `${pageName}.pug`);
     getFile(themeUrl).then(data => {
@@ -86,7 +86,7 @@ const getPageTheme = function(pageName) {
 }
 
 // get theme for list item (based on item's parent folder)
-const getListItemTheme = function(itemFolder) {
+const getListItemTheme = (itemFolder) => {
   return new Promise((resolve, reject) => {
     const themeUrl = path.join(__dirname, './../theme/', config.theme, '/', itemFolder, '/item.pug');
     getFile(themeUrl).then(data => {
@@ -96,7 +96,7 @@ const getListItemTheme = function(itemFolder) {
 }
 
 // get theme for list (based on list name)
-const getListTheme = function(listName) {
+const getListTheme = (listName) => {
   return new Promise((resolve, reject) => {
     const themeUrl = path.join(__dirname, './../theme/', config.theme, '/', listName, '/list.pug');
     getFile(themeUrl).then(data => {

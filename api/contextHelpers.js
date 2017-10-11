@@ -3,7 +3,7 @@ const wmd = require('wmd');
 
 const {getFile} = require('./importHelpers');
 
-const createContextForList = function(folderContents) {
+const createContextForList = (folderContents) => {
   let promises = [];
   return new Promise((resolve, reject) => {
     for (let file in folderContents) {
@@ -21,7 +21,7 @@ const createContextForList = function(folderContents) {
 }
 
 // gets context data from file url - works both for list entries and pages
-const createContextFromFile = function(fileUrl) {
+const createContextFromFile = (fileUrl) => {
   return new Promise((resolve, reject) => {
     getFile(fileUrl).then(data => {
       const parsedData = {
