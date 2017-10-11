@@ -7,7 +7,7 @@ const path = require('path');
 const {getFile} = require('./importHelpers');
 const {decodeBase64Image} = require('./helpers');
 const {getListItems, getPagesEntries, getSiteContents} = require('./contentHelpers');
-
+const {getThemeData} = require('./themeHelpers');
 
 const app = express();
 
@@ -139,7 +139,9 @@ app.post('/save-file/', function(req, res){
 
 // compile content to static site (located in /output folder in root directory)
 app.get('/compile-all/', function(req, res){
-	compileEverything();
+	getThemeData().then(themeData => {
+		res.send(themeData);
+	});
 });
 
 // app.post('/compile-list/', function(req, res){
