@@ -1,7 +1,9 @@
 <html>
   <head></head>
   <body>
+    #{JSON.stringify(context)}
     for item in context.list
-      a(href=`/${item.slug}`) #{item.slug}
+      p
+        a(href=`/${item.folder}/${item.slug}/`) #{item.meta.title}
   </body>
 </html>

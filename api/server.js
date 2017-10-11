@@ -8,7 +8,7 @@ const {getFile} = require('./importHelpers');
 const {decodeBase64Image} = require('./helpers');
 const {getListItems, getPagesEntries, getSiteContents} = require('./contentHelpers');
 const {getThemeData} = require('./themeHelpers');
-const {compileLists} = require('./compileHelpers');
+const {compileLists, compilePages, compileEverything} = require('./compileHelpers');
 
 const app = express();
 
@@ -90,7 +90,7 @@ app.get('/parse2html/', function(req, res){
 });
 
 // save image to public folder, append timestamp to name, return url to file
-app.get('/save-img/', function(req, res){
+app.post('/save-img/', function(req, res){
 	const img = req.query.file;
 	const file = decodeBase64Image(img);
 	const name = req.query.name;
@@ -127,13 +127,25 @@ app.post('/save-file/', function(req, res){
 });
 
 // compile all lists
-app.get('/compile-lists/', function(req, res){
+app.post('/compile-lists/', function(req, res){
 	compileLists().then(() => {
-		console.log('All lists are compiled!');
 		res.sendStatus(200);
   });
 });
 
+// compile all pages
+app.post('/compile-pages/', function(req, res){
+	compilePages().then(() => {
+		res.sendStatus(200);
+  });
+});
+
+// compile everything
+app.post('/compile-all/', function(req, res){
+	compileEverything().then(() => {
+		res.sendStatus(200);
+  });
+});
 
 // =======================================
 // =					EXTRA API ENDPOINTS			 	 =

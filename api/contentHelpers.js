@@ -1,6 +1,7 @@
 const path = require('path');
+const wmd = require('wmd');
 
-const {getDirectories, getFiles} = require('./importHelpers');
+const {getDirectories, getFiles, getFile} = require('./importHelpers');
 
 const getListFolders = function() {
   const sourcePath = path.join(__dirname, '/../source/');
