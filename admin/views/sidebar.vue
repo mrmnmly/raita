@@ -5,7 +5,6 @@
 </template>
 
 <script>
-  import axios from 'axios';
 
   export default {
     data() {
@@ -18,9 +17,9 @@
     },
     methods: {
       getSidebarData() {
-        axios.get('http://locahost:3000/list-contents/').then(data => {
-          this.lists = data;
-        });
+        // axios.get('http://locahost:3000/list-contents/').then(data => {
+        //   this.lists = data;
+        // });
       }
     }
   }
