@@ -5,6 +5,7 @@
 </template>
 
 <script>
+  import {getSiteContents} from './../../api/contentHelpers';
 
   export default {
     data() {
@@ -17,9 +18,9 @@
     },
     methods: {
       getSidebarData() {
-        // axios.get('http://locahost:3000/list-contents/').then(data => {
-        //   this.lists = data;
-        // });
+        getSiteContents().then(data => {
+          this.lists = data;
+        });
       }
     }
   }

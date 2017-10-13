@@ -37,13 +37,6 @@ app.use('/public', express.static(__dirname + '/../output/public'));
 // set preview url to see generated content
 app.use('/preview', express.static(__dirname + '/../output'));
 
-// home route
-app.get('/', (req, res) => {
-	getFileList().then(fileList => {
-  	res.render('index', { fileList: fileList, dirname: __dirname });
-  });
-});
-
 // get list of all files
 app.get('/site-contents/', (req, res) => {
 	getSiteContents().then(fileList => {
