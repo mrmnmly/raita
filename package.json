@@ -1,5 +1,5 @@
 {
-  "name": "mrwrittr",
+  "name": "raita",
   "version": "1.0.0",
   "description": "static site generator with web interface",
   "main": "index.js",
@@ -15,7 +15,6 @@
     "moment": "^2.19.2",
     "node-sass": "^4.6.1",
     "path": "^0.12.7",
-    "pug": "^2.0.0-rc.4",
     "static": "^2.0.0",
     "uglify-js": "^3.1.9",
     "wmd": "^0.2.11"
@@ -25,12 +24,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mrmnmly/mrwrittr.git"
+    "url": "git+https://github.com/mrmnmly/raita.git"
   },
   "author": "mrmnmly",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mrmnmly/mrwrittr/issues"
+    "url": "https://github.com/mrmnmly/raita/issues"
   },
-  "homepage": "https://github.com/mrmnmly/mrwrittr#readme"
+  "homepage": "https://github.com/mrmnmly/raita#readme"
 }
