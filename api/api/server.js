@@ -9,6 +9,7 @@ const {decodeBase64Image} = require('./helpers');
 const {getListItems, getPagesEntries, getSiteContents} = require('./contentHelpers');
 const {getThemeData} = require('./themeHelpers');
 const {compileLists, compilePages, compileEverything} = require('./compileHelpers');
+const config = require('./../config.json');
 
 const app = express();
 
@@ -17,6 +18,13 @@ app.use(bodyParser.json());
 
 // support encoded bodies
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// enable cors for panel app
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", config.panel.domain);
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 // set view engine
 app.set('view engine', 'pug');
