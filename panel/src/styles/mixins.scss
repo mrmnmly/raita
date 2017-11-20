@@ -1,3 +1,7 @@
 @mixin bottom-shadow {
   box-shadow: 0 3px 3px rgba(0, 0, 0, 0.5);
 }
+
+@mixin right-shadow {
+  box-shadow: 5px 0 5px rgba(0, 0, 0, 0.1);
+}
