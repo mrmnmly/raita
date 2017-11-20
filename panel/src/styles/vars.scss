@@ -1,8 +1,27 @@
 // color variables
 $black: #121212;
 $white: #fff;
-$gray-light: #fefefe;
-$gray: #C2CBCE;
-$gray-dark: #413D3D;
+$gray-lighter: #fefefe;
+$gray-light: #3f4045;
+$gray: #413D3D;
+$gray-dark: #252526;
 $red: #fe293c;
 $red-dark: #A30006;
+
+// font variables
+$small-font: 11px;
+$h2-size: 14px;
+$font-light: 300;
+$font-regular: 400;
+$font-bold: 600;
+
+// size variables
+$sidebar-width: 20%;
+$small-margin: 5px;
+$regular-margin: 10px;
+$small-padding: 5px;
+$regular-padding: 10px;
+$big-padding: 25px;
+
+// z-index variables
+$sidebar-index: 2;
