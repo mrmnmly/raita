@@ -3,9 +3,10 @@
     <h2 class="sidebar-list__header">Lists:</h2>
     <ul class="sidebar-list__entries">
       <li
-        class="sidebar-list__single-entry"
         v-for="list in listNames"
         :key="list"
+        :class="getListEntryClasses(list)"
+        @click="selectList(list)"
       >
         {{ list }}
       </li>
@@ -28,6 +29,9 @@ export default {
       });
       return listNames;
     },
+    selectedList() {
+      return this.$store.getters.getSelectedList;
+    },
   },
   methods: {
     getLists() {
@@ -41,6 +45,19 @@ export default {
       }).catch(error => {
         console.error(error);
       });
+    },
+    getListEntryClasses(listName) {
+      return {
+        'sidebar-list__single-entry': true,
+        'sidebar-list__single-entry--selected': this.selectedList === listName,
+      };
+    },
+    selectList(listName) {
+      if (listName === this.selectedList) {
+        this.$store.dispatch('selectList', null);
+      } else {
+        this.$store.dispatch('selectList', listName);
+      }
     }
   },
   created() {
@@ -90,6 +107,10 @@ export default {
   &:hover {
     background: $gray-light;
     color: $white;
+  }
+
+  &.sidebar-list__single-entry--selected {
+    color: $red;
   }
 }
 </style>

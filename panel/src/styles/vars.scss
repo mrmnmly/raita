@@ -16,7 +16,8 @@ $font-regular: 400;
 $font-bold: 600;
 
 // size variables
-$sidebar-width: 20%;
+$sidebar-width: 15%;
+$sidebar-entries-width: 20%;
 $small-margin: 5px;
 $regular-margin: 10px;
 $small-padding: 5px;
@@ -24,4 +25,5 @@ $regular-padding: 10px;
 $big-padding: 25px;
 
 // z-index variables
-$sidebar-index: 2;
+$sidebar-list-index: 2;
+$sidebar-index: 3;
