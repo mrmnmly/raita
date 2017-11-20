@@ -1,6 +1,16 @@
 var path = require('path')
 var webpack = require('webpack')
 
+const resourcesLoader = {
+  loader: 'sass-resources-loader',
+  options: {
+    resources: [
+      path.resolve(__dirname, 'src/styles/vars.scss'),
+      path.resolve(__dirname, 'src/styles/mixins.scss')
+    ]
+  }
+};
+
 module.exports = {
   entry: './src/main.js',
   output: {
@@ -23,15 +33,7 @@ module.exports = {
           'vue-style-loader',
           'css-loader',
           'sass-loader',
-          {
-            loader: 'sass-resources-loader',
-            options: {
-              resources: [
-                path.resolve(__dirname, 'src/styles/vars.scss'),
-                path.resolve(__dirname, 'src/styles/mixins.scss')
-              ]
-            }
-          },
+          resourcesLoader
         ],
       },
       {
@@ -53,7 +55,8 @@ module.exports = {
             'scss': [
               'vue-style-loader',
               'css-loader',
-              'sass-loader'
+              'sass-loader',
+              resourcesLoader
             ],
             'sass': [
               'vue-style-loader',
