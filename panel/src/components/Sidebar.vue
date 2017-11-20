@@ -10,8 +10,11 @@
       </h1>
       <sidebar-lists />
     </div>
+    <sidebar-list-items
+      :listVisibility="sidebarVisibility"
+    />
     <p
-      class="sidebar__show-button"
+      :class="showButtonClasses"
       @click="toggleSidebarVisibility"
     >
       Show sidebar
@@ -21,10 +24,12 @@
 
 <script>
 import SidebarLists from './SidebarLists';
+import SidebarListItems from './SidebarListItems';
 
 export default {
   components: {
     'sidebar-lists': SidebarLists,
+    'sidebar-list-items': SidebarListItems,
   },
   data() {
     return {
@@ -36,6 +41,12 @@ export default {
       return {
         'sidebar': true,
         'sidebar--hidden': this.sidebarVisibility,
+      };
+    },
+    showButtonClasses() {
+      return {
+        'sidebar__show-button': true,
+        'sidebar__show-button--hidden': !this.sidebarVisibility,
       };
     },
   },
@@ -54,8 +65,7 @@ export default {
   display: block;
   left: 0;
   height: 100%;
-  max-width: $sidebar-width;
-  min-width: $sidebar-width;
+  width: $sidebar-width;
   overflow-x: hidden;
   overflow-y: scroll;
   position: fixed;
@@ -67,11 +77,6 @@ export default {
 .sidebar--hidden {
   left: -$sidebar-width;
   transition: left 1s;
-
-  + .sidebar__show-button {
-    left: $regular-margin;
-    transition: left 1s;
-  }
 }
 
 .sidebar__header {
@@ -87,7 +92,7 @@ export default {
   cursor: pointer;
   display: block;
   font-size: $small-font;
-  left: -$sidebar-width;
+  left: $regular-margin;
   position: fixed;
   top: $small-margin;
   transition: left 1s;
@@ -95,6 +100,11 @@ export default {
   &:hover {
     color: $red;
     text-decoration: underline;
+  }
+
+  &.sidebar__show-button--hidden {
+    left: -$sidebar-width;
+    transition: left 1s;
   }
 }
 </style>
