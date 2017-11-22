@@ -1,15 +1,18 @@
 <template>
   <div class="main-wrapper">
     <sidebar />
+    <editor />
   </div>
 </template>
 
 <script>
 import Sidebar from './Sidebar';
+import Editor from './Editor';
 
 export default {
   components: {
     'sidebar': Sidebar,
+    'editor': Editor,
   },
 };
 </script>
