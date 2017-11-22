@@ -6,7 +6,8 @@
   "api": {
     "domain": "http://localhost:3000",
     "endpoints": {
-      "getLists": "/list-contents/"
+      "getLists": "/list-contents/",
+      "getArticleContents": "/list-item/"
     }
   }
 }
