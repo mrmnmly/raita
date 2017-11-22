@@ -1,6 +1,8 @@
 // color variables
 $black: #121212;
 $white: #fff;
+$white-dark: #efefef;
+$white-darker: #dadada;
 $gray-lighter: #fefefe;
 $gray-light: #3f4045;
 $gray: #413D3D;
@@ -8,7 +10,12 @@ $gray-dark: #252526;
 $red: #fe293c;
 $red-dark: #A30006;
 
+// editor-related variables
+$editor-font-size: 16px;
+$editor-width: 70%;
+
 // font variables
+$base-font-family: monospace, 'Avenir', Helvetica, Arial, sans-serif;
 $small-font: 11px;
 $h2-size: 14px;
 $font-light: 300;
@@ -20,10 +27,13 @@ $sidebar-width: 15%;
 $sidebar-entries-width: 20%;
 $small-margin: 5px;
 $regular-margin: 10px;
+$big-margin: 25px;
 $small-padding: 5px;
 $regular-padding: 10px;
+$medium-padding: 15px;
 $big-padding: 25px;
 
 // z-index variables
-$sidebar-list-index: 2;
-$sidebar-index: 3;
+$sidebar-button-index: 2;
+$sidebar-list-index: 3;
+$sidebar-index: 4;
