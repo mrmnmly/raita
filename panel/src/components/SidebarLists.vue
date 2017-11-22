@@ -16,6 +16,7 @@
 
 <script>
 import config from './../config.json';
+import { getApiLists } from './../helpers/apiHelpers.js';
 
 export default {
   computed: {
@@ -35,12 +36,7 @@ export default {
   },
   methods: {
     getLists() {
-      return fetch(`${config.api.domain}${config.api.endpoints.getLists}`).then(resp => {
-        if (resp.ok) {
-          return resp.json();
-        }
-      }).then(data => {
-        console.log(data);
+      return getApiLists().then(data => {
         return this.$store.dispatch('updateLists', data);
       }).catch(error => {
         console.error(error);
@@ -89,9 +85,14 @@ export default {
 
 .sidebar-list__entries {
   display: block;
+  float: left;
+  height: 25vh;
   list-style-type: none;
   margin: 0;
-  padding: 0;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  padding: 0 $regular-padding 0 0;
+  width: 100%;
 }
 
 .sidebar-list__single-entry {

@@ -10,9 +10,7 @@
       </h1>
       <sidebar-lists />
     </div>
-    <sidebar-list-items
-      :listVisibility="sidebarVisibility"
-    />
+    <sidebar-list-items />
     <p
       :class="showButtonClasses"
       @click="toggleSidebarVisibility"
@@ -31,31 +29,29 @@ export default {
     'sidebar-lists': SidebarLists,
     'sidebar-list-items': SidebarListItems,
   },
-  data() {
-    return {
-      sidebarVisibility: false,
-    };
-  },
   computed: {
+    sidebarVisibility() {
+      return this.$store.getters.getSidebarVisibilityStatus;
+    },
     sidebarClasses() {
       return {
         'sidebar': true,
-        'sidebar--hidden': this.sidebarVisibility,
+        'sidebar--hidden': !this.sidebarVisibility,
       };
     },
     showButtonClasses() {
       return {
         'sidebar__show-button': true,
-        'sidebar__show-button--hidden': !this.sidebarVisibility,
+        'sidebar__show-button--hidden': this.sidebarVisibility,
       };
     },
   },
   methods: {
     toggleSidebarVisibility() {
-      this.sidebarVisibility = !this.sidebarVisibility;
+      this.$store.dispatch('updateSidebarVisibilityStatus', !this.sidebarVisibility);
     },
-  }
-}
+  },
+};
 </script>
 
 <style lang="scss">
@@ -66,8 +62,7 @@ export default {
   left: 0;
   height: 100%;
   width: $sidebar-width;
-  overflow-x: hidden;
-  overflow-y: scroll;
+  overflow: hidden;
   position: fixed;
   top: 0;
   transition: left 0.5s;
@@ -96,6 +91,7 @@ export default {
   position: fixed;
   top: $small-margin;
   transition: left 1s;
+  z-index: $sidebar-button-index;
 
   &:hover {
     color: $red;

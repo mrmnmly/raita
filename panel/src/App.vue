@@ -12,12 +12,13 @@ export default {
   components: {
     'main-wrapper': MainWrapper,
   },
-}
+};
 </script>
 
 <style lang="scss">
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: $base-font-family;
+  font-size: $small-font;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   margin: 0;
