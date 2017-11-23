@@ -5,3 +5,10 @@
 @mixin right-shadow {
   box-shadow: 5px 0 5px rgba(0, 0, 0, 0.1);
 }
+
+@mixin input-border($color) {
+  border-bottom: 1px solid $color;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+}
