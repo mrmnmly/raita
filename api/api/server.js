@@ -111,7 +111,7 @@ app.post('/save-img/', (req, res) => {
 app.post('/save-file/', (req, res) => {
 	const content = req.body.content;
 	const fileUrl = req.body.url;
-  const customFields = req.body.customFields;
+	const customFields = req.body.customFields;
 	let txt;
 	for(let key in customFields){
 		txt += key + ': ' + customFields[key] + '\n';
