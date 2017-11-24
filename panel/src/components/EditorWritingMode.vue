@@ -1,6 +1,9 @@
 <template>
   <div class="editor-writer">
-    <metadata-form :metadata="articleContents.metadata" />
+    <metadata-form
+      :metadata="formArticleMetadata"
+      @meta-updated="updateArticleMetadata(...arguments)"
+    />
     <textarea
       class="editor-writer__textarea"
       :value="articleContents.markdown"
@@ -25,6 +28,7 @@ export default {
   data() {
     return {
       formArticleText: '',
+      formArticleMetadata: {},
     };
   },
   components: {
@@ -44,15 +48,18 @@ export default {
     updateArticleText(e) {
       this.formArticleText = e.currentTarget.value;
     },
+    updateArticleMetadata(metaKey, metaNewValue) {
+      this.formArticleMetadata[metaKey] = metaNewValue;
+    },
     updateArticle(e) {
       e.preventDefault();
       const articleObj = {
         content: this.formArticleText,
         url: this.selectedArticle.path,
-        customFields: this.articleContents.metadata,
+        customFields: this.formArticleMetadata,
       };
       console.log(articleObj);
-      saveApiArticle(articleObj).then(() => this.$store.dispatch('updateSelectedArticleContents', this.articleContents));
+      saveApiArticle(articleObj).then(() => this.$store.dispatch('updateSelectedArticleContents', articleObj));
     }
   }
 };

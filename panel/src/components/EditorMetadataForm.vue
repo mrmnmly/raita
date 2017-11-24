@@ -2,7 +2,7 @@
   <ul class="metadata-form">
     <li
       class="metadata-form__entry"
-      v-for="(item, key, index) in metadata"
+      v-for="(item, key, index) in metadataFields"
       :key="`${key}-${index}`"
     >
       <input
@@ -10,6 +10,7 @@
         type="text"
         :placeholder="key"
         :value="item"
+        @input="(e) => emitUpdatedMeta(e, key)"
       />
     </li>
   </ul>
@@ -24,10 +25,39 @@ export default {
         return {
           title: '',
           date: '',
+          tags: '',
         };
       },
     },
   },
+  data() {
+    return {
+      metadataFields: {
+        title: '',
+        date: '',
+        tags: '',
+      },
+    };
+  },
+  computed: {
+    metadataHelper() {
+      const fieldsObj = {
+        title: this.metadata.title,
+        date: this.metadata.date,
+        tags: this.metadata.tags,
+      };
+      this.title = fieldsObj.title;
+      this.date = fieldsObj.date;
+      this.tags = fieldsObj.tags;
+      return fieldsObj;
+    },
+  },
+  methods: {
+    emitUpdatedMeta(e, metaKey) {
+      this.metadataFields[metaKey] = e.currentTarget.value;
+      this.$emit('meta-updated', metaKey, this.metadataFields[metaKey]);
+    }
+  }
 };
 </script>
 
