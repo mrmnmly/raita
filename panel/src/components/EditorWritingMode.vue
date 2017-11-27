@@ -70,6 +70,7 @@ export default {
   display: block;
   font-size: $editor-font-size;
   height: 80vh;
+  line-height: 1.5em;
   margin: $big-margin auto;
   padding: $regular-padding;
   resize: none;
