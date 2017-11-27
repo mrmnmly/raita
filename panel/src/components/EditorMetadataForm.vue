@@ -1,16 +1,30 @@
 <template>
   <ul class="metadata-form">
-    <li
-      class="metadata-form__entry"
-      v-for="(item, key, index) in metadataFields"
-      :key="`${key}-${index}`"
-    >
+    <li class="metadata-form__entry">
       <input
         class="metadata-form__input"
         type="text"
-        :placeholder="key"
-        :value="item"
-        @input="(e) => emitUpdatedMeta(e, key)"
+        placeholder="Title"
+        :value="metaTitle"
+        @change="(e) => updateArticleMeta(e, 'title')"
+      />
+    </li>
+    <li class="metadata-form__entry">
+      <input
+        class="metadata-form__input"
+        type="text"
+        placeholder="Date"
+        :value="metaDate"
+        @change="(e) => updateArticleMeta(e, 'date')"
+      />
+    </li>
+    <li class="metadata-form__entry">
+      <input
+        class="metadata-form__input"
+        type="text"
+        placeholder="Tags"
+        :value="metaTags"
+        @change="(e) => updateArticleMeta(e, 'tags')"
       />
     </li>
   </ul>
@@ -18,44 +32,28 @@
 
 <script>
 export default {
-  props: {
-    metadata: {
-      type: Object,
-      default() {
-        return {
-          title: '',
-          date: '',
-          tags: '',
-        };
-      },
-    },
-  },
-  data() {
-    return {
-      metadataFields: {
-        title: '',
-        date: '',
-        tags: '',
-      },
-    };
-  },
   computed: {
-    metadataHelper() {
-      const fieldsObj = {
-        title: this.metadata.title,
-        date: this.metadata.date,
-        tags: this.metadata.tags,
-      };
-      this.title = fieldsObj.title;
-      this.date = fieldsObj.date;
-      this.tags = fieldsObj.tags;
-      return fieldsObj;
+    articleData() {
+      return this.$store.getters.getSelectedArticleContents;
+    },
+    metaTitle() {
+      return this.articleData.metadata && this.articleData.metadata.title
+      ? this.articleData.metadata.title : '';
+    },
+    metaDate() {
+      return this.articleData.metadata && this.articleData.metadata.date
+      ? this.articleData.metadata.date : '';
+    },
+    metaTags() {
+      return this.articleData.metadata && this.articleData.metadata.tags
+      ? this.articleData.metadata.tags : '';
     },
   },
   methods: {
-    emitUpdatedMeta(e, metaKey) {
-      this.metadataFields[metaKey] = e.currentTarget.value;
-      this.$emit('meta-updated', metaKey, this.metadataFields[metaKey]);
+    updateArticleMeta(e, metaKey) {
+      const metaHelper = this.articleData;
+      metaHelper.metadata[metaKey] = e.currentTarget.value;
+      this.$store.dispatch('updateSelectedArticleContents', metaHelper);
     }
   }
 };

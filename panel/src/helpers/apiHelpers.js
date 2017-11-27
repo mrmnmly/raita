@@ -24,9 +24,9 @@ export function getApiArticleContents(article) {
 // article object has to contain content (text), url (text) and customFields property (object)
 export function saveApiArticle(articleObj) {
   return fetch(`${config.api.domain}${config.api.endpoints.saveArticle}`, {
-      headers: {
+      headers: new Headers({
         'Content-Type': 'application/json',
-      },
+      }),
       method: 'POST',
       body: JSON.stringify(articleObj),
     }).then(resp => {
