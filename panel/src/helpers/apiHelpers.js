@@ -28,10 +28,11 @@ export function saveApiArticle(articleObj) {
         'Content-Type': 'application/json',
       }),
       method: 'POST',
+      dataType: 'json',
       body: JSON.stringify(articleObj),
     }).then(resp => {
     if (resp.ok) {
-      return resp.json();
+      return resp;
     }
     console.error('There was an error during saving file.');
     return {};

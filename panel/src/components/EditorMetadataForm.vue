@@ -51,8 +51,9 @@ export default {
   },
   methods: {
     updateArticleMeta(e, metaKey) {
-      const metaHelper = this.articleData;
+      const metaHelper = {...this.articleData};
       metaHelper.metadata[metaKey] = e.currentTarget.value;
+      console.log(metaHelper);
       this.$store.dispatch('updateSelectedArticleContents', metaHelper);
     }
   }

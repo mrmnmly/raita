@@ -36,6 +36,7 @@ export default {
     },
     articleContents() {
       const articleContents = this.$store.getters.getSelectedArticleContents;
+      console.log(articleContents);
       this.formArticleText = articleContents.markdown;
       return articleContents;
     },
@@ -46,17 +47,18 @@ export default {
     },
     updateArticle(e) {
       e.preventDefault();
+      const articleContents = this.$store.getters.getSelectedArticleContents;
       const articleObj = {
         content: this.formArticleText,
         url: this.selectedArticle.path,
         customFields: {
-          title: this.articleContents.metadata.title,
-          date: this.articleContents.metadata.date,
-          tags: this.articleContents.metadata.tags,
+          title: articleContents.metadata.title || '',
+          date: articleContents.metadata.date || '',
+          tags: articleContents.metadata.tags || '',
         },
       };
-      console.log(articleObj);
-      saveApiArticle(articleObj).then(() => this.$store.dispatch('updateSelectedArticleContents', articleObj));
+      console.log('b', articleObj);
+      saveApiArticle(articleObj);
     }
   }
 };
