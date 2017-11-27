@@ -1,6 +1,6 @@
 <template>
   <div class="editor-writer">
-    <metadata-form :metadata="articleContents.metadata" />
+    <metadata-form />
     <textarea
       class="editor-writer__textarea"
       :value="articleContents.markdown"
@@ -36,6 +36,7 @@ export default {
     },
     articleContents() {
       const articleContents = this.$store.getters.getSelectedArticleContents;
+      console.log(articleContents);
       this.formArticleText = articleContents.markdown;
       return articleContents;
     },
@@ -46,13 +47,18 @@ export default {
     },
     updateArticle(e) {
       e.preventDefault();
+      const articleContents = this.$store.getters.getSelectedArticleContents;
       const articleObj = {
         content: this.formArticleText,
         url: this.selectedArticle.path,
-        customFields: this.articleContents.metadata,
+        customFields: {
+          title: articleContents.metadata.title || '',
+          date: articleContents.metadata.date || '',
+          tags: articleContents.metadata.tags || '',
+        },
       };
-      console.log(articleObj);
-      saveApiArticle(articleObj).then(() => this.$store.dispatch('updateSelectedArticleContents', this.articleContents));
+      console.log('b', articleObj);
+      saveApiArticle(articleObj);
     }
   }
 };
@@ -64,6 +70,7 @@ export default {
   display: block;
   font-size: $editor-font-size;
   height: 80vh;
+  line-height: 1.5em;
   margin: $big-margin auto;
   padding: $regular-padding;
   resize: none;

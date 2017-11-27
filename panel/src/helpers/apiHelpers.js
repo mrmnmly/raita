@@ -24,14 +24,15 @@ export function getApiArticleContents(article) {
 // article object has to contain content (text), url (text) and customFields property (object)
 export function saveApiArticle(articleObj) {
   return fetch(`${config.api.domain}${config.api.endpoints.saveArticle}`, {
-      headers: {
+      headers: new Headers({
         'Content-Type': 'application/json',
-      },
+      }),
       method: 'POST',
+      dataType: 'json',
       body: JSON.stringify(articleObj),
     }).then(resp => {
     if (resp.ok) {
-      return resp.json();
+      return resp;
     }
     console.error('There was an error during saving file.');
     return {};

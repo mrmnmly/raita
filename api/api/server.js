@@ -112,9 +112,11 @@ app.post('/save-file/', (req, res) => {
 	const content = req.body.content;
 	const fileUrl = req.body.url;
 	const customFields = req.body.customFields;
-	let txt;
+	let txt = '';
 	for(let key in customFields){
-		txt += key + ': ' + customFields[key] + '\n';
+		if (customFields.hasOwnProperty(key)) {
+			txt += key + ': ' + customFields[key] + '\n';
+		}
 	}
 	txt += '\n' + content;
 	fs.writeFile(fileUrl, txt, function(err){
