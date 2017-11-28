@@ -58,8 +58,8 @@ export default {
         });
       } else {
         this.$store.dispatch('selectArticle', article).then(() => {
-          getApiArticleContents(article).then(data => {
-            return this.$store.dispatch('updateSelectedArticleContents', data);
+          getApiArticleContents(article).then(resp => {
+            return this.$store.dispatch('updateSelectedArticleContents', resp.data);
           }).catch(error => {
             console.error(error);
           });

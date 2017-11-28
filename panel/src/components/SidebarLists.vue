@@ -36,8 +36,8 @@ export default {
   },
   methods: {
     getLists() {
-      return getApiLists().then(data => {
-        return this.$store.dispatch('updateLists', data);
+      return getApiLists().then(resp => {
+        return this.$store.dispatch('updateLists', resp.data);
       }).catch(error => {
         console.error(error);
       });
