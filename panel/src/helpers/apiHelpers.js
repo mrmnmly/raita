@@ -38,3 +38,14 @@ export function saveApiArticle(articleObj) {
     return {};
   });
 };
+
+export function getContentsRootUrl() {
+  return fetch(`${config.api.domain}${config.api.endpoints.getRootUrl}`).then(resp => {
+    if (resp.ok) {
+      console.log(resp)
+      return resp.json();
+    }
+    console.error('There was an error when obtaining root contents folder path.');
+    return {};
+  });
+};
