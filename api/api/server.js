@@ -47,21 +47,27 @@ app.use('/preview', express.static(__dirname + '/../output'));
 // get list of all files
 app.get('/site-contents/', (req, res) => {
 	getSiteContents().then(fileList => {
-    res.send(fileList);
+    res.status(200).json({
+			data: fileList,
+		});
   });
 });
 
 // get list of all page files
 app.get('/page-contents/', (req, res) => {
 	getPagesEntries().then(fileList => {
-    res.send(fileList);
+    res.status(200).json({
+			data: fileList,
+		});
   });
 });
 
 // get list of all list files
 app.get('/list-contents/', (req, res) => {
 	getListItems().then(fileList => {
-    res.send(fileList);
+    res.status(200).json({
+			data: fileList,
+		});
   });
 });
 
@@ -70,7 +76,9 @@ app.get('/list-item/:listName/:fileName', (req, res) => {
   const url = path.join(__dirname, '/../source/' + req.params.listName, req.params.fileName);
 	getFile(url).then(fileData => {
 	  const md = wmd(fileData);
-  	res.send(md);
+  	res.status(200).json({
+			data: md
+		});
   });
 });
 
@@ -79,7 +87,9 @@ app.get('/page/:fileName', (req, res) => {
   const url = path.join(__dirname, '/../source/', req.params.fileName)
 	getFile(url).then(fileData => {
     const md = wmd(fileData);
-    res.send(md);
+    res.status(200).json({
+			data: md,
+		});
   });
 });
 
@@ -87,7 +97,9 @@ app.get('/page/:fileName', (req, res) => {
 app.get('/parse2html/', (req, res) => {
 	const txt = req.query.markdown;
 	txt = wmd(txt);
-	res.send(txt.html);
+	res.status(200).json({
+		data: txt.html,
+	});
 });
 
 // save image to public folder, append timestamp to name, return url to file
@@ -103,8 +115,10 @@ app.post('/save-img/', (req, res) => {
     }
     const safePath = encodeURIComponent(filename.trim());
     const mdAnchor = ` ![${name}](${path.join('/public/', safePath)})`;
-    res.send(mdAnchor);
-  })
+    res.json({
+			data: mdAnchor,
+		});
+  });
 });
 
 // save currently edited file
@@ -158,7 +172,17 @@ app.post('/compile-all/', (req, res) => {
 // get all theme file urls from current theme folder
 app.get('/get-all-theme-contents/', (req, res) => {
 	getThemeData().then(themeData => {
-		res.send(themeData);
+		res.json({
+			data: themeData,
+		});
+	});
+});
+
+// get filesystem url to content folder
+app.get('/get-content-root-url/', (req, res) => {
+	const rootContentUrl = path.join(__dirname, '/../source/');
+	res.status(200).json({
+		data: rootContentUrl,
 	});
 });
 
