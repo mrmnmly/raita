@@ -49,3 +49,23 @@ export function getContentsRootUrl() {
     return {};
   });
 };
+
+// remove file (e.g. when title or date is updated so slug is now different and so file name should be)
+export function removeApiFile(url) {
+  return fetch(`${config.api.domain}${config.api.endpoints.removeFile}`, {
+      headers: new Headers({
+        'Content-Type': 'application/json',
+      }),
+      method: 'POST',
+      dataType: 'json',
+      body: JSON.stringify({
+        url: url
+      }),
+    }).then(resp => {
+    if (resp.ok) {
+      return resp;
+    }
+    console.error('There was an error during removing file.');
+    return {};
+  });
+};
