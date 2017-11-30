@@ -58,7 +58,6 @@ export default {
   },
   created() {
     this.getLists().then(() => {
-      console.log('im here')
       this.$forceUpdate();
     });
   },

@@ -24,8 +24,10 @@
 import EditorMetadataForm from './EditorMetadataForm';
 import { saveApiArticle, removeApiFile } from './../helpers/apiHelpers';
 import { slugify } from './../helpers/parsingHelpers'
+import fetchingDataMixin from './../mixins/fetchingDataMixin';
 
 export default {
+  mixins: [ fetchingDataMixin ],
   data() {
     return {
       formArticleText: '',
@@ -54,6 +56,7 @@ export default {
     updateArticle(e) {
       e.preventDefault();
       removeApiFile(this.selectedArticle.path).then(() => {
+        // All these variables are necessary to update file name (because it contains date and title slug)
         const articleContents = this.$store.getters.getSelectedArticleContents;
         const selectedArticle = this.$store.getters.getSelectedArticle;
         const rootUrl = this.$store.getters.getArticleRootPath;
@@ -69,7 +72,18 @@ export default {
             tags: articleContents.metadata.tags || '',
           },
         };
-        saveApiArticle(articleObj);
+        saveApiArticle(articleObj).then(() => {
+          // Method available thanks to fetchingDataMixin
+          this.updateSidebarData();
+          const newSelectedArticle = {
+            file: `${articleContents.metadata.date}-${slug}.md`,
+            folder: fileFolder,
+            path: newUrl,
+            slug: `${articleContents.metadata.date}-${slug}`,
+            type: 'list-item',
+          };
+          this.$store.dispatch('selectArticle', newSelectedArticle);
+        });
       });
     }
   }
