@@ -1,0 +1,5 @@
+title: New Post ola!
+date: 2017-10-11
+tags: default tag
+
+hue hue hue!
