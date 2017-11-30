@@ -143,6 +143,19 @@ app.post('/save-file/', (req, res) => {
 	});
 });
 
+// remove file
+app.post('/remove-file/', (req, res) => {
+	const fileUrl = req.body.url;
+	fs.writeFile(fileUrl, txt, function(err){
+		if(err){
+      console.warn(err);
+      res.sendStatus(500);
+		}
+		console.log('file removed!');
+		res.sendStatus(200);
+	});
+});
+
 // compile all lists
 app.post('/compile-lists/', (req, res) => {
 	compileLists().then(() => {
