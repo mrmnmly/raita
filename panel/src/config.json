@@ -10,7 +10,8 @@
       "getArticleContents": "/list-item/",
       "saveArticle": "/save-file/",
       "removeFile": "/remove-file/",
-      "getRootUrl" :"/get-content-root-url/"
+      "getRootUrl" :"/get-content-root-url/",
+      "saveImage": "/save-img/"
     }
   }
 }

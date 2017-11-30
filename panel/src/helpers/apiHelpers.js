@@ -69,3 +69,31 @@ export function removeApiFile(url) {
     return {};
   });
 };
+
+export function uploadApiImage(fileObj) {
+  return new Promise((resolve, reject) => {
+    let reader = new FileReader();
+    const filename = fileObj.name;
+    reader.onload = function(e){
+      let img = reader.result;
+      fetch(`${config.api.domain}${config.api.endpoints.saveImage}`, {
+        headers: new Headers({
+          'Content-Type': 'application/json',
+        }),
+        method: 'POST',
+        dataType: 'json',
+        body: JSON.stringify({
+          file: img,
+          name: filename
+        }),
+      }).then(resp => {
+        if (resp.ok) {
+          resolve(resp);
+        }
+        console.error('There was an error during removing file.');
+        reject();
+      });
+    }
+    reader.readAsDataURL(fileObj);
+  });
+}

@@ -8,6 +8,7 @@
       class="editor-writer__textarea"
       :value="articleContents.markdown"
       @input="updateArticleText"
+      @drop="appendImage"
     >
     </textarea>
     <button
@@ -22,12 +23,12 @@
 
 <script>
 import EditorMetadataForm from './EditorMetadataForm';
-import { saveApiArticle, removeApiFile } from './../helpers/apiHelpers';
+import { saveApiArticle, removeApiFile, uploadApiImage } from './../helpers/apiHelpers';
 import { slugify } from './../helpers/parsingHelpers'
-import fetchingDataMixin from './../mixins/fetchingDataMixin';
+import updateSidebarDataMixin from './../mixins/updateSidebarDataMixin';
 
 export default {
-  mixins: [ fetchingDataMixin ],
+  mixins: [ updateSidebarDataMixin ],
   data() {
     return {
       formArticleText: '',
@@ -85,6 +86,28 @@ export default {
           this.$store.dispatch('selectArticle', newSelectedArticle);
         });
       });
+    },
+    appendImage(e) {
+      e.preventDefault();
+      const files = e.target.files || e.dataTransfer.files;
+      let promises = [];
+      console.log(files)
+      if (files && files.length) {
+        for (let file in files){
+          promises.push(uploadApiImage(files[file]));
+        };
+        Promise.all(promises).then(respArr => {
+        console.log(respArr)
+
+          respArr.map(respImg => {
+            this.formArticleText += respImg;
+          });
+        });
+      } else {
+        uploadApiImage(file).then(resp => {
+          this.formArticleText += resp;
+        })
+      }
     }
   }
 };
