@@ -6,7 +6,7 @@
     <metadata-form />
     <textarea
       class="editor-writer__textarea"
-      :value="articleContents.markdown"
+      v-model="formArticleText"
       @input="updateArticleText"
       @drop="appendImage"
     >
@@ -42,11 +42,10 @@ export default {
       return this.$store.getters.getSelectedArticle;
     },
     articleContents() {
-      const articleContents = this.$store.getters.getSelectedArticleContents;
-      this.formArticleText = articleContents.markdown;
-      return articleContents;
+      return this.$store.getters.getSelectedArticleContents;
     },
     isArticleSelected() {
+      this.formArticleText = this.$store.getters.getSelectedArticleContents.markdown;
       return Object.keys(this.selectedArticle).length;
     }
   },
@@ -74,16 +73,15 @@ export default {
           },
         };
         saveApiArticle(articleObj).then(() => {
-          // Method available thanks to fetchingDataMixin
-          this.updateSidebarData();
           const newSelectedArticle = {
-            file: `${articleContents.metadata.date}-${slug}.md`,
-            folder: fileFolder,
-            path: newUrl,
-            slug: `${articleContents.metadata.date}-${slug}`,
-            type: 'list-item',
-          };
-          this.$store.dispatch('selectArticle', newSelectedArticle);
+              file: `${articleContents.metadata.date}-${slug}.md`,
+              folder: fileFolder,
+              path: newUrl,
+              slug: `${articleContents.metadata.date}-${slug}`,
+              type: 'list-item',
+            };
+          // Method available thanks to fetchingDataMixin
+          this.updateSidebarData(newSelectedArticle);
         });
       });
     },
@@ -91,22 +89,15 @@ export default {
       e.preventDefault();
       const files = e.target.files || e.dataTransfer.files;
       let promises = [];
-      console.log(files)
-      if (files && files.length) {
-        for (let file in files){
-          promises.push(uploadApiImage(files[file]));
+      if (files && files.length > 0) {
+        for (let file of files){
+          promises.push(uploadApiImage(file));
         };
         Promise.all(promises).then(respArr => {
-        console.log(respArr)
-
           respArr.map(respImg => {
-            this.formArticleText += respImg;
+            this.formArticleText += respImg.data;
           });
         });
-      } else {
-        uploadApiImage(file).then(resp => {
-          this.formArticleText += resp;
-        })
       }
     }
   }
