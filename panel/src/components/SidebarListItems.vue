@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { getApiArticleContents } from './../helpers/apiHelpers.js';
+import { getApiArticleContents } from './../helpers/apiHelpers';
 
 export default {
   computed: {
