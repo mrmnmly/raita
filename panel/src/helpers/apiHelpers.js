@@ -1,4 +1,5 @@
 import config from './../config.json';
+import { decodeBase64Image } from './parsingHelpers';
 
 export function getApiLists() {
   return fetch(`${config.api.domain}${config.api.endpoints.getLists}`).then(resp => {
@@ -42,7 +43,6 @@ export function saveApiArticle(articleObj) {
 export function getContentsRootUrl() {
   return fetch(`${config.api.domain}${config.api.endpoints.getRootUrl}`).then(resp => {
     if (resp.ok) {
-      console.log(resp)
       return resp.json();
     }
     console.error('There was an error when obtaining root contents folder path.');
@@ -70,13 +70,14 @@ export function removeApiFile(url) {
   });
 };
 
-export function uploadApiImage(fileObj) {
+
+const uploadApiImageHelper = function(fileObj) {
   return new Promise((resolve, reject) => {
     let reader = new FileReader();
     const filename = fileObj.name;
     reader.onload = function(e){
       let img = reader.result;
-      fetch(`${config.api.domain}${config.api.endpoints.saveImage}`, {
+      return fetch(`${config.api.domain}${config.api.endpoints.saveImage}`, {
         headers: new Headers({
           'Content-Type': 'application/json',
         }),
@@ -89,11 +90,22 @@ export function uploadApiImage(fileObj) {
       }).then(resp => {
         if (resp.ok) {
           resolve(resp);
+          return;
         }
-        console.error('There was an error during removing file.');
+        console.error('There was an error during uploading image file.');
         reject();
       });
     }
-    reader.readAsDataURL(fileObj);
+    return reader.readAsDataURL(fileObj);
+  });
+}
+
+export function uploadApiImage(fileObj) {
+  return uploadApiImageHelper(fileObj).then(resp => {
+    if (resp.ok) {
+      return resp.json();
+    }
+    console.error('There was an error during uploading image file.');
+    return;
   });
 }
