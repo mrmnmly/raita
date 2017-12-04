@@ -1,11 +1,18 @@
-import { getApiLists } from './../helpers/apiHelpers';
+import { getApiLists, getApiArticleContents } from './../helpers/apiHelpers';
 
 export default {
   methods: {
-    updateSidebarData() {
+    updateSidebarData(newSelectedArticle) {
       // Update sidebar article lists
-      getApiLists().then(resp => {
-        this.$store.dispatch('updateLists', resp.data);
+      return getApiLists().then(newList => {
+        this.$store.dispatch('updateLists', newList.data);
+        // get updated file contents
+        getApiArticleContents(newSelectedArticle).then(resp => {
+          // update all necessary vuex stores
+          this.$store.dispatch('updateSelectedArticleContents', resp.data).then(() => {
+            return this.$store.dispatch('selectArticle', newSelectedArticle);
+          });
+        });
       }).catch(error => {
         console.error(error);
       });
