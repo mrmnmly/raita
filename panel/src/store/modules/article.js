@@ -1,6 +1,7 @@
 const state = {
   selectedArticle: {},
   selectedArticleContents: {},
+  articlesRootPath: '',
 };
 
 const getters = {
@@ -10,6 +11,9 @@ const getters = {
   getSelectedArticleContents(state) {
     return state.selectedArticleContents;
   },
+  getArticleRootPath(state) {
+    return state.articlesRootPath;
+  }
 };
 
 const mutations = {
@@ -18,6 +22,9 @@ const mutations = {
   },
   updateSelectedArticleContents(state, payload) {
     state.selectedArticleContents = payload;
+  },
+  setArticleRootPath(state, payload) {
+    state.articlesRootPath = payload;
   },
 };
 
@@ -33,6 +40,9 @@ const actions = {
       commit('updateSelectedArticleContents', payload);
       resolve();
     });
+  },
+  setArticleRootPath({ commit }, payload) {
+    commit('setArticleRootPath', payload);
   },
 };
 

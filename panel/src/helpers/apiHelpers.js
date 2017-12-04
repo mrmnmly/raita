@@ -1,4 +1,5 @@
 import config from './../config.json';
+import { decodeBase64Image } from './parsingHelpers';
 
 export function getApiLists() {
   return fetch(`${config.api.domain}${config.api.endpoints.getLists}`).then(resp => {
@@ -38,3 +39,73 @@ export function saveApiArticle(articleObj) {
     return {};
   });
 };
+
+export function getContentsRootUrl() {
+  return fetch(`${config.api.domain}${config.api.endpoints.getRootUrl}`).then(resp => {
+    if (resp.ok) {
+      return resp.json();
+    }
+    console.error('There was an error when obtaining root contents folder path.');
+    return {};
+  });
+};
+
+// remove file (e.g. when title or date is updated so slug is now different and so file name should be)
+export function removeApiFile(url) {
+  return fetch(`${config.api.domain}${config.api.endpoints.removeFile}`, {
+      headers: new Headers({
+        'Content-Type': 'application/json',
+      }),
+      method: 'POST',
+      dataType: 'json',
+      body: JSON.stringify({
+        url: url
+      }),
+    }).then(resp => {
+    if (resp.ok) {
+      return resp;
+    }
+    console.error('There was an error during removing file.');
+    return {};
+  });
+};
+
+
+const uploadApiImageHelper = function(fileObj) {
+  return new Promise((resolve, reject) => {
+    let reader = new FileReader();
+    const filename = fileObj.name;
+    reader.onload = function(e){
+      let img = reader.result;
+      return fetch(`${config.api.domain}${config.api.endpoints.saveImage}`, {
+        headers: new Headers({
+          'Content-Type': 'application/json',
+        }),
+        method: 'POST',
+        dataType: 'json',
+        body: JSON.stringify({
+          file: img,
+          name: filename
+        }),
+      }).then(resp => {
+        if (resp.ok) {
+          resolve(resp);
+          return;
+        }
+        console.error('There was an error during uploading image file.');
+        reject();
+      });
+    }
+    return reader.readAsDataURL(fileObj);
+  });
+}
+
+export function uploadApiImage(fileObj) {
+  return uploadApiImageHelper(fileObj).then(resp => {
+    if (resp.ok) {
+      return resp.json();
+    }
+    console.error('There was an error during uploading image file.');
+    return;
+  });
+}

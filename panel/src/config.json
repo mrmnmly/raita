@@ -8,7 +8,10 @@
     "endpoints": {
       "getLists": "/list-contents/",
       "getArticleContents": "/list-item/",
-      "saveArticle": "/save-file/"
+      "saveArticle": "/save-file/",
+      "removeFile": "/remove-file/",
+      "getRootUrl" :"/get-content-root-url/",
+      "saveImage": "/save-img/"
     }
   }
 }
