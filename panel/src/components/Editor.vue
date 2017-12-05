@@ -1,7 +1,7 @@
 <template>
   <div :class="editorClasses">
-    <writing-view />
-    <preview-view />
+    <preview-view v-if="activePreview"/>
+    <writing-view v-else />
   </div>
 </template>
 
@@ -28,6 +28,9 @@ export default {
         'editor-wrapper--extra-wide': !this.visibleSidebar,
       };
     },
+    activePreview() {
+      return this.$store.getters.getContentToPreview.length > 0;
+    }
   },
 };
 </script>
