@@ -31,19 +31,29 @@ app.use(function(req, res, next) {
 app.set('view engine', 'pug');
 
 //set path to views folder
-app.set('views',path.join(__dirname, '../admin/'));
-// set fonts folder path
-app.use('/fonts', express.static(__dirname + '/static/fonts'));
-// set stylesheets folder path
-app.use('/css', express.static(__dirname + '/static/css'));
-// set scripts folder path
-app.use('/js', express.static(__dirname + '/static/js'));
-// set css image path
-app.use('/img', express.static(__dirname + '/static/img'));
+app.set('/panel', path.join(__dirname, './../../panel/dist'));
 // set image assets path
-app.use('/public', express.static(__dirname + '/../output/public'));
-// set preview url to see generated content
-app.use('/preview', express.static(__dirname + '/../output'));
+app.use('/public', express.static(path.join(__dirname, './../output/public')));
+
+// TODO: Fix paths to work with current theme folder
+// set fonts folder path
+// app.use('/fonts', express.static(path.join(__dirname, '/static/fonts')));
+// set stylesheets folder path
+// app.use('/css', express.static(path.join(__dirname, '/static/css')));
+// set scripts folder path
+// app.use('/js', express.static(path.join(__dirname, '/static/js')));
+// set css image path
+// app.use('/img', express.static(path.join(__dirname, '/static/img')));
+// set preview url to see generated static webpage
+// app.use('/preview', express.static(path.join(__dirname, '/../output')));
+
+app.use(express.static(path.join(__dirname, './../../panel')));
+
+app.get('/panel', (req, res) => {
+	res.sendFile('index.html', {
+		root: path.join(__dirname, './../../panel'),
+	});
+});
 
 // get list of all files
 app.get('/site-contents/', (req, res) => {
@@ -95,8 +105,8 @@ app.get('/page/:fileName', (req, res) => {
 });
 
 // parse markdown to html
-app.get('/parse2html/', (req, res) => {
-	const txt = req.query.markdown;
+app.post('/parse2html/', (req, res) => {
+	let txt = req.body.markdown;
 	txt = wmd(txt);
 	res.status(200).json({
 		data: txt.html,
