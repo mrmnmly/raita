@@ -1,7 +1,7 @@
 <template>
   <div class="main-wrapper">
     <sidebar />
-    <editor />
+    <editor v-if="selectedArticle" />
   </div>
 </template>
 
@@ -14,6 +14,11 @@ export default {
   components: {
     'sidebar': Sidebar,
     'editor': Editor,
+  },
+  computed: {
+    selectedArticle() {
+      return Object.keys(this.$store.getters.getSelectedArticle).length;
+    }
   },
   mounted() {
     /* on start we need to set project's source folder
