@@ -12,3 +12,17 @@
   border-right: none;
   border-top: none;
 }
+
+@mixin black-button($background-color, $font-color, $x-padding, $y-padding) {
+  background: $background-color;
+  border: none;
+  color: $font-color;
+  cursor: pointer;
+  padding: $y-padding $x-padding;
+  transition: background-color 0.35s;
+}
+
+@mixin black-button-hover($background-color) {
+  background-color: $background-color;
+  transition: background-color 0.35s;
+}
