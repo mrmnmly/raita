@@ -52,6 +52,8 @@ export default {
       };
     },
     selectArticle(article) {
+      // when selecting or deselecting article we need to empty the preview contents to always show editor in edit mode
+      this.$store.dispatch('updateContentToPreview', '');
       if (article.slug === this.selectedArticle.slug) {
         this.$store.dispatch('selectArticle', {}).then(() => {
           this.$store.dispatch('updateSelectedArticleContents', {});

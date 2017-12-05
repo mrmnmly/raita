@@ -2,6 +2,7 @@ const state = {
   selectedArticle: {},
   selectedArticleContents: {},
   articlesRootPath: '',
+  contentToPreview: '',
 };
 
 const getters = {
@@ -13,7 +14,10 @@ const getters = {
   },
   getArticleRootPath(state) {
     return state.articlesRootPath;
-  }
+  },
+  getContentToPreview(state) {
+    return state.contentToPreview;
+  },
 };
 
 const mutations = {
@@ -25,6 +29,9 @@ const mutations = {
   },
   setArticleRootPath(state, payload) {
     state.articlesRootPath = payload;
+  },
+  updateContentToPreview(state, payload) {
+    state.contentToPreview = payload;
   },
 };
 
@@ -43,6 +50,12 @@ const actions = {
   },
   setArticleRootPath({ commit }, payload) {
     commit('setArticleRootPath', payload);
+  },
+  updateContentToPreview({ commit }, payload) {
+    return new Promise(resolve => {
+      commit('updateContentToPreview', payload);
+      resolve();
+    });
   },
 };
 

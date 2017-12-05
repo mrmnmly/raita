@@ -12,6 +12,12 @@
     >
     </textarea>
     <button
+      class="editor-writer__preview-toggle-button"
+      @click="(e) => previewArticle(e, formArticleText)"
+    >
+      Preview
+    </button>
+    <button
       class="editor-writer__save-button"
       title="Click to save changes"
       @click="updateArticle"
@@ -99,7 +105,11 @@ export default {
           });
         });
       }
-    }
+    },
+    previewArticle(e, articleContent) {
+      e.preventDefault();
+      this.$store.dispatch('updateContentToPreview', articleContent);
+    },
   }
 };
 </script>
@@ -117,20 +127,20 @@ export default {
   width: $editor-width;
 }
 
-.editor-writer__save-button {
-  background-color: $black;
-  border: none;
+.editor-writer__save-button,
+.editor-writer__preview-toggle-button {
+  @include black-button($black, $white, $big-padding, $regular-padding);
+
   bottom: $big-margin;
-  color: $white;
-  cursor: pointer;
-  padding: $regular-padding $big-padding;
   position: fixed;
   right: $big-margin;
-  transition: background-color 0.35s;
 
   &:hover {
-    background-color: $red;
-    transition: background-color 0.35s;
+    @include black-button-hover($red);
   }
+}
+
+.editor-writer__preview-toggle-button {
+  bottom: $big-margin * 3;
 }
 </style>
