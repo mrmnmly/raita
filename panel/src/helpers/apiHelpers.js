@@ -109,3 +109,22 @@ export function uploadApiImage(fileObj) {
     return;
   });
 }
+
+export function parseApiMarkdownToHtml(content) {
+  return fetch(`${config.api.domain}${config.api.endpoints.parse2html}`, {
+    headers: new Headers({
+      'Content-Type': 'application/json',
+    }),
+    method: 'POST',
+    dataType: 'json',
+    body: JSON.stringify({
+      markdown: content
+    }),
+  }).then(resp => {
+  if (resp.ok) {
+    return resp.json();
+  }
+  console.error('There was an error during markdown parse.');
+  return '';
+});
+}
