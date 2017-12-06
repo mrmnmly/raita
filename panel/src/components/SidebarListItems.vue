@@ -4,23 +4,25 @@
   >
     <h2 class="article-list-wrapper--header">{{ selectedList }}</h2>
     <ul class="article-list">
-      <li
+      <create-article-button />
+      <list-item
         v-for="article in currentList"
         :key="article.file"
-        :class="getClassForArticle(article.slug)"
-        title="Click to edit this article"
-        @click="selectArticle(article)"
-      >
-        {{ article.slug }}
-      </li>
+        :article="article"
+      ></list-item>
     </ul>
   </div>
 </template>
 
 <script>
-import { getApiArticleContents } from './../helpers/apiHelpers';
+import SidebarListItemsEntry from './SidebarListItemsEntry';
+import CreateArticleButton from './SidebarListCreateArticleButton';
 
 export default {
+  components: {
+    'list-item': SidebarListItemsEntry,
+    'create-article-button':CreateArticleButton,
+  },
   computed: {
     sidebarVisibility() {
       return this.$store.getters.getSidebarVisibilityStatus;
@@ -39,34 +41,6 @@ export default {
     },
     currentList() {
       return this.lists[this.selectedList];
-    },
-    selectedArticle() {
-      return this.$store.getters.getSelectedArticle;
-    },
-  },
-  methods: {
-    getClassForArticle(articleSlug) {
-      return {
-        'article-list__article-item': true,
-        'article-list__article-item--selected': articleSlug === this.selectedArticle.slug,
-      };
-    },
-    selectArticle(article) {
-      // when selecting or deselecting article we need to empty the preview contents to always show editor in edit mode
-      this.$store.dispatch('updateContentToPreview', '');
-      if (article.slug === this.selectedArticle.slug) {
-        this.$store.dispatch('selectArticle', {}).then(() => {
-          this.$store.dispatch('updateSelectedArticleContents', {});
-        });
-      } else {
-        this.$store.dispatch('selectArticle', article).then(() => {
-          getApiArticleContents(article).then(resp => {
-            return this.$store.dispatch('updateSelectedArticleContents', resp.data);
-          }).catch(error => {
-            console.error(error);
-          });
-        });
-      }
     },
   },
 };
@@ -111,22 +85,5 @@ export default {
   margin: 0;
   padding: 0;
   width: 100%;
-
-  .article-list__article-item {
-    border-bottom: 1px solid $white-darker;
-    cursor: pointer;
-    display: block;
-    margin: 0;
-    padding: $medium-padding;
-
-    &:hover {
-      background-color: $white-dark;
-      color: $red;
-    }
-
-    &.article-list__article-item--selected {
-      color: $red;
-    }
-  }
 }
 </style>
