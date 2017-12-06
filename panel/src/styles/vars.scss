@@ -1,3 +1,6 @@
+// border-related variables
+$small-border-radius: 3px;
+
 // color variables
 $black: #121212;
 $white: #fff;
@@ -22,6 +25,9 @@ $font-light: 300;
 $font-regular: 400;
 $font-bold: 600;
 
+// shadow variables
+$standard-shadow: 0 5px 5px rgba(0,0,0,0.25);
+
 // size variables
 $sidebar-width: 15%;
 $sidebar-entries-width: 20%;
@@ -37,3 +43,4 @@ $big-padding: 25px;
 $sidebar-button-index: 2;
 $sidebar-list-index: 3;
 $sidebar-index: 4;
+$popup-z-index: 6;
