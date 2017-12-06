@@ -80,12 +80,12 @@ export default {
         };
         saveApiArticle(articleObj).then(() => {
           const newSelectedArticle = {
-              file: `${articleContents.metadata.date}-${slug}.md`,
-              folder: fileFolder,
-              path: newUrl,
-              slug: `${articleContents.metadata.date}-${slug}`,
-              type: 'list-item',
-            };
+            file: `${articleContents.metadata.date}-${slug}.md`,
+            folder: fileFolder,
+            path: newUrl,
+            slug: `${articleContents.metadata.date}-${slug}`,
+            type: 'list-item',
+          };
           // Method available thanks to fetchingDataMixin
           this.updateSidebarData(newSelectedArticle);
         });

@@ -2,23 +2,45 @@
   <div class="main-wrapper">
     <sidebar />
     <editor v-if="selectedArticle" />
+    <popup
+      v-if="removePopupVisibility"
+      :window-name="removePopupWindowName"
+      :popup-name="removePopupName"
+      :show-window="removePopupVisibility"
+      :closeable="true"
+    >
+    </popup>
   </div>
 </template>
 
 <script>
 import Sidebar from './Sidebar';
 import Editor from './Editor';
+import Popup from './Popup';
 import { getContentsRootUrl } from './../helpers/apiHelpers';
 
 export default {
   components: {
     'sidebar': Sidebar,
     'editor': Editor,
+    'popup': Popup,
+  },
+  data() {
+    return {
+      removePopupWindowName: 'Delete article?',
+      removePopupName: 'removePopup',
+    };
   },
   computed: {
     selectedArticle() {
       return Object.keys(this.$store.getters.getSelectedArticle).length;
-    }
+    },
+    popupState() {
+      return this.$store.getters.getPopupState;
+    },
+    removePopupVisibility() {
+      return this.popupState.removePopup;
+    },
   },
   mounted() {
     /* on start we need to set project's source folder
