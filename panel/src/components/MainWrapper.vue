@@ -2,14 +2,15 @@
   <div class="main-wrapper">
     <sidebar />
     <editor v-if="selectedArticle" />
-    <popup
+    <popup-wrapper
       v-if="removePopupVisibility"
       :window-name="removePopupWindowName"
       :popup-name="removePopupName"
       :show-window="removePopupVisibility"
-      :closeable="true"
+      :closeable="false"
     >
-    </popup>
+      <remove-popup v-if="removePopupVisibility" />
+    </popup-wrapper>
   </div>
 </template>
 
@@ -17,13 +18,15 @@
 import Sidebar from './Sidebar';
 import Editor from './Editor';
 import Popup from './Popup';
+import RemovePopupForm from './PopupRemoveArticleForm';
 import { getContentsRootUrl } from './../helpers/apiHelpers';
 
 export default {
   components: {
     'sidebar': Sidebar,
     'editor': Editor,
-    'popup': Popup,
+    'popup-wrapper': Popup,
+    'remove-popup': RemovePopupForm,
   },
   data() {
     return {
