@@ -1,7 +1,7 @@
 <template>
   <li
     :key="article.file"
-    :class="getClassForListEntry(article.slug)"
+    :class="getClassForListEntry(article.path)"
     title="Click to edit this article"
     @click="selectArticle(article)"
   >
@@ -27,7 +27,8 @@ export default {
       default() {
         return {
           slug: '',
-          file: ''
+          file: '',
+          path: '',
         };
       },
     },
@@ -47,16 +48,16 @@ export default {
     },
   },
   methods: {
-    getClassForListEntry(articleSlug) {
+    getClassForListEntry(articlePath) {
       return {
         'article-list__article-item': true,
-        'article-list__article-item--selected': articleSlug === this.selectedArticle.slug,
+        'article-list__article-item--selected': articlePath === this.selectedArticle.path,
       };
     },
     selectArticle(article) {
       // when selecting or deselecting article we need to empty the preview contents to always show editor in edit mode
       this.$store.dispatch('updateContentToPreview', '');
-      if (article.slug === this.selectedArticle.slug) {
+      if (article.path === this.selectedArticle.path) {
         this.$store.dispatch('selectArticle', {}).then(() => {
           this.$store.dispatch('updateSelectedArticleContents', {});
         });
