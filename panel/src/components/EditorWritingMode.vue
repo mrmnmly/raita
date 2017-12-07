@@ -28,6 +28,7 @@
 </template>
 
 <script>
+// TODO: add switch to save buttons for pages and list articles
 import EditorMetadataForm from './EditorMetadataForm';
 import { saveApiArticle, removeApiFile, uploadApiImage } from './../helpers/apiHelpers';
 import { slugify } from './../helpers/parsingHelpers'
