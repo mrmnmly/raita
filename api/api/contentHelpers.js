@@ -27,6 +27,7 @@ const getListFolderContents = (folderName) => {
         }
         folderContents.push(obj);
       }
+      folderContents.reverse();
       resolve(folderContents);
     });
   });

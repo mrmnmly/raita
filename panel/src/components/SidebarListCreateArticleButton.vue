@@ -1,9 +1,11 @@
 <template>
-  <li
-    class="article-list__article-item"
-    @click="addNewArticle"
-  >
-    Add new article
+  <li class="article-list__article-item article-list__article-item--create-button-wrapper">
+    <button
+      class="article-list__create-article-button"
+      @click="addNewArticle"
+    >
+      Add new article
+    </button>
   </li>
 </template>
 
@@ -53,13 +55,16 @@ export default {
 
 <style lang="scss">
 .article-list__article-item {
-  .article-list__article-item-remove-button {
-    display: none;
+  .article-list__create-article-button {
+    @include black-button($black, $white, $big-padding, $regular-padding);
+
+    &:hover {
+      @include black-button-hover($red);
+    }
   }
 
-  &:hover .article-list__article-item-remove-button {
-    display: inline;
-    float: right;
+  &.article-list__article-item.article-list__article-item--create-button-wrapper:hover {
+    background: $white;
   }
 }
 </style>

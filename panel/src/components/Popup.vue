@@ -74,11 +74,14 @@
   .popup__title-bar {
     border-bottom: 1px solid $gray-lighter;
     display: block;
+    font-weight: $font-regular;
     padding: $regular-padding;
   }
 
   .popup__window-name {
+    cursor: default;
     display: inline;
+    font-weight: $font-regular;
     line-height: 1em;
     margin: 0;
   }
