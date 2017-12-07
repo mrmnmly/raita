@@ -1,6 +1,7 @@
 import config from './../config.json';
 import { decodeBase64Image } from './parsingHelpers';
 
+// function that fetches all available lists
 export function getApiLists() {
   return fetch(`${config.api.domain}${config.api.endpoints.getLists}`).then(resp => {
     if (resp.ok) {
@@ -11,7 +12,7 @@ export function getApiLists() {
   });
 };
 
-// article object has to contain folder name (text) and filename (text, name + extension, .md mostly) property
+// article object has to contain folder name (text) and file name (text, name + extension, .md mostly) property
 export function getApiArticleContents(article) {
   return fetch(`${config.api.domain}${config.api.endpoints.getArticleContents}${article.folder}/${article.file}`).then(resp => {
     if (resp.ok) {
@@ -121,10 +122,32 @@ export function parseApiMarkdownToHtml(content) {
       markdown: content
     }),
   }).then(resp => {
-  if (resp.ok) {
-    return resp.json();
-  }
-  console.error('There was an error during markdown parse.');
-  return '';
-});
+    if (resp.ok) {
+      return resp.json();
+    }
+    console.error('There was an error during markdown parse.');
+    return '';
+  });
 }
+
+// fetches list of available pages
+export function getApiPages() {
+  return fetch(`${config.api.domain}${config.api.endpoints.getPages}`).then(resp => {
+    if (resp.ok) {
+      return resp.json();
+    }
+    console.error('There was an error during fetching lists.');
+    return {};
+  });
+};
+
+// page object has to contain file name (text, name + extension, .md mostly) property
+export function getApiPageContents(page) {
+  return fetch(`${config.api.domain}${config.api.endpoints.getPageContents}${page.file}`).then(resp => {
+    if (resp.ok) {
+      return resp.json();
+    }
+    console.error('There was an error during fetching page contents.');
+    return {};
+  });
+};

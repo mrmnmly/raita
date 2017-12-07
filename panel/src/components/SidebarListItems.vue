@@ -9,7 +9,7 @@
         v-for="article in currentList"
         :key="article.file"
         :article="article"
-      ></list-item>
+      />
     </ul>
   </div>
 </template>

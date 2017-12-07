@@ -12,7 +12,9 @@
       "removeFile": "/remove-file/",
       "getRootUrl" :"/get-content-root-url/",
       "saveImage": "/save-img/",
-      "parse2html":"/parse2html/"
+      "parse2html": "/parse2html/",
+      "getPages": "/page-contents/",
+      "getPageContents": "/page/"
     }
   }
 }

@@ -9,6 +9,7 @@
         ライター
       </h1>
       <sidebar-lists />
+      <sidebar-pages />
     </div>
     <sidebar-list-items />
     <p
@@ -23,11 +24,13 @@
 <script>
 import SidebarLists from './SidebarLists';
 import SidebarListItems from './SidebarListItems';
+import SidebarPages from './SidebarPages';
 
 export default {
   components: {
     'sidebar-lists': SidebarLists,
     'sidebar-list-items': SidebarListItems,
+    'sidebar-pages': SidebarPages,
   },
   computed: {
     sidebarVisibility() {
