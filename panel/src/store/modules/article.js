@@ -3,6 +3,7 @@ const state = {
   selectedArticleContents: {},
   articlesRootPath: '',
   contentToPreview: '',
+  articleToRemove: {},
 };
 
 const getters = {
@@ -18,6 +19,9 @@ const getters = {
   getContentToPreview(state) {
     return state.contentToPreview;
   },
+  getArticleToRemove(state) {
+    return state.articleToRemove;
+  }
 };
 
 const mutations = {
@@ -33,6 +37,9 @@ const mutations = {
   updateContentToPreview(state, payload) {
     state.contentToPreview = payload;
   },
+  updateArticleToRemove(state, payload) {
+    state.articleToRemove = payload;
+  }
 };
 
 const actions = {
@@ -56,6 +63,9 @@ const actions = {
       commit('updateContentToPreview', payload);
       resolve();
     });
+  },
+  updateArticleToRemove({ commit }, payload) {
+    commit('updateArticleToRemove', payload);
   },
 };
 
