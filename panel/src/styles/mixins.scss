@@ -19,10 +19,10 @@
   color: $font-color;
   cursor: pointer;
   padding: $y-padding $x-padding;
-  transition: background-color 0.35s;
+  transition: background-color 0.15s;
 }
 
 @mixin black-button-hover($background-color) {
   background-color: $background-color;
-  transition: background-color 0.35s;
+  transition: background-color 0.15s;
 }
