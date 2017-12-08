@@ -8,7 +8,7 @@
     {{ article.slug }}
     <span
       class="article-list__article-item-remove-button"
-      @click="(e) => showRemovePopup(e, article)"
+      @click.stop="showRemovePopup(article)"
       title="Click to remove this article"
     >
       x
@@ -71,8 +71,7 @@ export default {
         });
       }
     },
-    showRemovePopup(e, article) {
-      e.stopPropagation();
+    showRemovePopup(article) {
       this.$store.dispatch('updateArticleToRemove', article);
       this.$store.dispatch('showPopup', 'removePopup');
     },

@@ -6,7 +6,7 @@
     ></div>
     <button
       class="preview-wrapper__edit-button"
-      @click="editArticle"
+      @click.prevent="editArticle"
     >
       Edit
     </button>
@@ -23,8 +23,7 @@ export default {
     };
   },
   methods: {
-    editArticle(e) {
-      e.preventDefault();
+    editArticle() {
       this.$store.dispatch('updateContentToPreview', '');
     }
   },

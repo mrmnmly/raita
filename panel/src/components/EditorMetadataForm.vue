@@ -79,6 +79,7 @@ export default {
     margin: $regular-margin 0;
     padding: $small-padding $regular-padding;
     transition: border 0.5s;
+    width: 25%;
 
     &:focus {
       @include input-border($red);

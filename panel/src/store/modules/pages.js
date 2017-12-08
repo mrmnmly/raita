@@ -1,6 +1,6 @@
 const state = {
   pages: {},
-  selectedPage: null,
+  selectedPage: {},
 };
 
 const getters = {
