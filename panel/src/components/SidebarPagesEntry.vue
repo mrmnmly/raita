@@ -1,7 +1,7 @@
 <template>
   <li
     :key="page.name"
-    :class="getPageClasses(page.name)"
+    :class="getPageClasses(page.path)"
     @click="selectPage(page)"
   >
     {{ page.name }}
@@ -22,7 +22,7 @@ export default {
   },
   computed: {
     selectedPage() {
-      return this.$store.getters.getSelectedPage;
+      return this.$store.getters.getSelectedPage || {};
     },
     selectedArticle() {
       return this.$store.getters.getSelectedArticle;
@@ -36,10 +36,10 @@ export default {
         console.error(error);
       });
     },
-    getPageClasses(pageName) {
+    getPageClasses(pagePath) {
       return {
         'sidebar-list__single-entry': true,
-        'sidebar-list__single-entry--selected': this.selectedPage === pageName,
+        'sidebar-list__single-entry--selected': pagePath === this.selectedArticle.path,
       };
     },
     selectPage(page) {
