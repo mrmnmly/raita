@@ -9,33 +9,27 @@
       v-model="formArticleText"
       @input="updateArticleText"
       @drop="appendImage"
+      placeholder="Start writing here.."
     >
     </textarea>
     <button
       class="editor-writer__preview-toggle-button"
-      @click="(e) => previewArticle(e, formArticleText)"
+      v-if="formArticleText.length > 0"
+      @click.prevent="previewArticle"
     >
       Preview
     </button>
-    <button
-      class="editor-writer__save-button"
-      title="Click to save changes"
-      @click="updateArticle"
-    >
-      Save
-    </button>
+    <save-button :article-text="formArticleText" />
   </div>
 </template>
 
 <script>
-// TODO: add switch to save buttons for pages and list articles
+// TODO: when clicking preview on unsaved article, when going back to edit mode it loads the saved document and all the edits are gone :/
 import EditorMetadataForm from './EditorMetadataForm';
-import { saveApiArticle, removeApiFile, uploadApiImage } from './../helpers/apiHelpers';
-import { slugify } from './../helpers/parsingHelpers'
-import updateSidebarDataMixin from './../mixins/updateSidebarDataMixin';
+import EditorSaveButton from './EditorSaveButton';
+import { uploadApiImage } from './../helpers/apiHelpers';
 
 export default {
-  mixins: [ updateSidebarDataMixin ],
   data() {
     return {
       formArticleText: '',
@@ -43,54 +37,23 @@ export default {
   },
   components: {
     'metadata-form': EditorMetadataForm,
+    'save-button': EditorSaveButton,
   },
   computed: {
     selectedArticle() {
       return this.$store.getters.getSelectedArticle;
     },
-    articleContents() {
+    selectedArticleContents() {
       return this.$store.getters.getSelectedArticleContents;
     },
     isArticleSelected() {
-      this.formArticleText = this.$store.getters.getSelectedArticleContents.markdown;
+      this.formArticleText = this.selectedArticleContents.markdown;
       return Object.keys(this.selectedArticle).length;
-    }
+    },
   },
   methods: {
     updateArticleText(e) {
       this.formArticleText = e.currentTarget.value;
-    },
-    updateArticle(e) {
-      e.preventDefault();
-      removeApiFile(this.selectedArticle.path).then(() => {
-        // All these variables are necessary to update file name (because it contains date and title slug)
-        const articleContents = this.$store.getters.getSelectedArticleContents;
-        const selectedArticle = this.$store.getters.getSelectedArticle;
-        const rootUrl = this.$store.getters.getArticleRootPath;
-        const fileFolder = selectedArticle.folder;
-        const slug = slugify(articleContents.metadata.title);
-        const newUrl = `${rootUrl}${fileFolder}/${articleContents.metadata.date}-${slug}.md`;
-        const articleObj = {
-          content: this.formArticleText,
-          url: newUrl,
-          customFields: {
-            title: articleContents.metadata.title,
-            date: articleContents.metadata.date || '',
-            tags: articleContents.metadata.tags || '',
-          },
-        };
-        saveApiArticle(articleObj).then(() => {
-          const newSelectedArticle = {
-            file: `${articleContents.metadata.date}-${slug}.md`,
-            folder: fileFolder,
-            path: newUrl,
-            slug: `${articleContents.metadata.date}-${slug}`,
-            type: 'list-item',
-          };
-          // Method available thanks to fetchingDataMixin
-          this.updateSidebarData(newSelectedArticle);
-        });
-      });
     },
     appendImage(e) {
       e.preventDefault();
@@ -107,9 +70,8 @@ export default {
         });
       }
     },
-    previewArticle(e, articleContent) {
-      e.preventDefault();
-      this.$store.dispatch('updateContentToPreview', articleContent);
+    previewArticle() {
+      this.$store.dispatch('updateContentToPreview', this.formArticleText);
     },
   }
 };
@@ -128,20 +90,15 @@ export default {
   width: $editor-width;
 }
 
-.editor-writer__save-button,
 .editor-writer__preview-toggle-button {
   @include black-button($black, $white, $big-padding, $regular-padding);
 
-  bottom: $big-margin;
+  bottom: $big-margin * 3;
   position: fixed;
   right: $big-margin;
 
   &:hover {
     @include black-button-hover($red);
   }
-}
-
-.editor-writer__preview-toggle-button {
-  bottom: $big-margin * 3;
 }
 </style>
