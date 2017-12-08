@@ -1,6 +1,5 @@
-title: About me
-tags: mrmnmly, about me, programmer, front-end developer, webdev, webdeveloper, JavaScript, Node.js
+title: about page
+date: 2018-12-08
+tags: about page, portfolio, mrmnmly, web developer, freelancer, front-end, front-end developer, programming
 
-# About me
-
-This is the story about mrmnmly.
+## about me.
