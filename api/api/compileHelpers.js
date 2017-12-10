@@ -3,11 +3,11 @@ const wmd = require('wmd');
 const pug = require('pug');
 const path = require('path');
 
-const {getFile, getFiles} = require('./importHelpers');
-const {slugify} = require('./helpers');
-const {getListFolders, getListFolderContents, getPagesEntries } = require('./contentHelpers');
-const {getListTheme, getPageTheme, getListItemTheme} = require('./themeHelpers');
-const {createContextForList, createContextFromFile} = require('./contextHelpers');
+const { getFile, getFiles } = require('./importHelpers');
+const { slugify } = require('./helpers');
+const { getListFolders, getListFolderContents, getPagesEntries } = require('./contentHelpers');
+const { getListTheme, getPageTheme, getListItemTheme } = require('./themeHelpers');
+const { createContextForList, createContextFromFile } = require('./contextHelpers');
 
 
 const compileLists = () => {

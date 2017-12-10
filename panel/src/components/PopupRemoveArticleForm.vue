@@ -58,10 +58,10 @@ export default {
 }
 
 .popup__button {
-  @include black-button($black, $white, $big-padding, $regular-padding);
+  @include button($black, $white, $big-padding, $regular-padding);
 
   &:hover {
-    @include black-button-hover($red);
+    @include button-hover($red);
   }
 }
 </style>

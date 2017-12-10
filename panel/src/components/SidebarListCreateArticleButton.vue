@@ -56,10 +56,10 @@ export default {
 <style lang="scss">
 .article-list__article-item {
   .article-list__create-article-button {
-    @include black-button($black, $white, $big-padding, $regular-padding);
+    @include button($black, $white, $big-padding, $regular-padding);
 
     &:hover {
-      @include black-button-hover($red);
+      @include button-hover($red);
     }
   }
 

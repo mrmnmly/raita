@@ -49,14 +49,14 @@ export default {
   }
 
   .preview-wrapper__edit-button {
-    @include black-button($black, $white, $big-padding, $regular-padding);
+    @include button($black, $white, $big-padding, $regular-padding);
 
     bottom: $big-margin * 3;
     position: fixed;
     right: $big-margin;
 
     &:hover {
-      @include black-button-hover($red);
+      @include button-hover($red);
     }
   }
 }
