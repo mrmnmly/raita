@@ -14,7 +14,8 @@
       "saveImage": "/save-img/",
       "parse2html": "/parse2html/",
       "getPages": "/page-contents/",
-      "getPageContents": "/page/"
+      "getPageContents": "/page/",
+      "compile": "/compile-all/"
     }
   }
 }
