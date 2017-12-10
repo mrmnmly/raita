@@ -84,14 +84,14 @@ export default {
 
 <style lang="scss">
 .editor-writer__save-button{
-  @include black-button($black, $white, $big-padding, $regular-padding);
+  @include button($black, $white, $big-padding, $regular-padding);
 
   bottom: $big-margin;
   position: fixed;
   right: $big-margin;
 
   &:hover {
-    @include black-button-hover($red);
+    @include button-hover($red);
   }
 }
 </style>
