@@ -151,3 +151,19 @@ export function getApiPageContents(page) {
     return {};
   });
 };
+
+// compile all created contents with chosen theme into static page
+export function compileApiContents() {
+  return fetch(`${config.api.domain}${config.api.endpoints.compile}`, {
+    headers: new Headers({
+      'Content-Type': 'application/json',
+    }),
+    method: 'POST',
+  }).then(resp => {
+    if (resp.ok) {
+      return resp.json();
+    }
+    console.error('There was an error during content compilation.');
+    return {};
+  });
+};
