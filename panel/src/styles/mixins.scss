@@ -13,7 +13,7 @@
   border-top: none;
 }
 
-@mixin black-button($background-color, $font-color, $x-padding, $y-padding) {
+@mixin button($background-color, $font-color, $x-padding, $y-padding) {
   background: $background-color;
   border: none;
   color: $font-color;
@@ -22,7 +22,7 @@
   transition: background-color 0.15s;
 }
 
-@mixin black-button-hover($background-color) {
+@mixin button-hover($background-color) {
   background-color: $background-color;
   transition: background-color 0.15s;
 }
