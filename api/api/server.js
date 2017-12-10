@@ -49,10 +49,15 @@ app.use('/public', express.static(path.join(__dirname, './../output/public')));
 
 app.use(express.static(path.join(__dirname, './../../panel')));
 
+// serve admin panel
 app.get('/panel', (req, res) => {
 	res.sendFile('index.html', {
 		root: path.join(__dirname, './../../panel'),
 	});
+});
+
+app.get('/public/:subPath(*)', (req, res) => {
+	res.sendFile(path.join(__dirname, './../output/', req.params.subPath, 'index.html'));
 });
 
 // get list of all files
