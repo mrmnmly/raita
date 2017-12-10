@@ -10,6 +10,7 @@
       </h1>
       <sidebar-lists />
       <sidebar-pages />
+      <compile-button />
     </div>
     <sidebar-list-items />
     <p
@@ -25,12 +26,14 @@
 import SidebarLists from './SidebarLists';
 import SidebarListItems from './SidebarListItems';
 import SidebarPages from './SidebarPages';
+import CompileButton from './CompileEverythingButton';
 
 export default {
   components: {
     'sidebar-lists': SidebarLists,
     'sidebar-list-items': SidebarListItems,
     'sidebar-pages': SidebarPages,
+    'compile-button': CompileButton,
   },
   computed: {
     sidebarVisibility() {
