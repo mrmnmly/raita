@@ -161,7 +161,7 @@ export function compileApiContents() {
     method: 'POST',
   }).then(resp => {
     if (resp.ok) {
-      return resp.json();
+      return resp.ok;
     }
     console.error('There was an error during content compilation.');
     return {};
