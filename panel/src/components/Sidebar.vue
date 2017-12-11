@@ -11,6 +11,7 @@
       <sidebar-lists />
       <sidebar-pages />
       <compile-button />
+      <preview-page-button />
     </div>
     <sidebar-list-items />
     <p
@@ -27,6 +28,7 @@ import SidebarLists from './SidebarLists';
 import SidebarListItems from './SidebarListItems';
 import SidebarPages from './SidebarPages';
 import CompileButton from './CompileEverythingButton';
+import PreviewPageButton from './PreviewPageButton';
 
 export default {
   components: {
@@ -34,6 +36,7 @@ export default {
     'sidebar-list-items': SidebarListItems,
     'sidebar-pages': SidebarPages,
     'compile-button': CompileButton,
+    'preview-page-button': PreviewPageButton,
   },
   computed: {
     sidebarVisibility() {
