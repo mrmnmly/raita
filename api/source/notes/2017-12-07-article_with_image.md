@@ -1,6 +1,6 @@
 title: Article with image
 date: 2017-12-07
-tags: 
+tags: image, article, writing
 
 This is example article with image yo!
 
