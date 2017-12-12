@@ -30,10 +30,14 @@ app.use(function(req, res, next) {
 // set view engine
 app.set('view engine', 'pug');
 
-//set path to views folder
+// set path to views folder
 app.set('/panel', path.join(__dirname, './../../panel/dist'));
 // set image assets path
 app.use('/public', express.static(path.join(__dirname, './../output/public')));
+// set current theme path folder
+app.set('theme', path.join(__dirname, './../theme/', config.theme));
+// set helper variable for pug template includes
+app.locals.basedir = app.get('theme');
 
 // TODO: Fix paths to work with current theme folder
 // set fonts folder path
