@@ -9,6 +9,8 @@ const { getListFolders, getListFolderContents, getPagesEntries } = require('./co
 const { getListTheme, getPageTheme, getListItemTheme } = require('./themeHelpers');
 const { createContextForList, createContextFromFile } = require('./contextHelpers');
 
+const config = require('./../config.json');
+const themeUrl = path.join(__dirname, './../theme/', config.theme);
 
 const compileLists = () => {
   let promises = [];
@@ -28,6 +30,7 @@ const compileLists = () => {
 
 const compileSingleList = (listName) => {
   return new Promise((resolve, reject) => {
+    const themeFileUrl = path.join(themeUrl, listName, 'list.pug');
     getListTheme(listName).then(theme => {
       getListFolderContents(listName).then(contents => {
         createContextForList(contents).then(listContext => {
@@ -36,7 +39,8 @@ const compileSingleList = (listName) => {
               list: listContext
             }
           }
-          const fileToSave = pug.render(theme, context);
+          const pugHelper = pug.compile(theme, { filename: themeFileUrl });
+          const fileToSave =  pugHelper(context);
           const outputPath = path.join(__dirname, './../output/', listName, '/');
           fs.emptyDir(outputPath).then(() => {
             fs.outputFile(path.join(outputPath, 'index.html'), fileToSave).then(() => {
@@ -74,10 +78,12 @@ const compileListItems = (listItems) => {
 // compile single list entry
 const compileListItem = (contextObj) => {
   return new Promise((resolve, reject) => {
+    const themeFileUrl = path.join(themeUrl,  contextObj.folder, 'item.pug');
     createContextFromFile(contextObj.path).then(context => {
       getListItemTheme(contextObj.folder).then(theme => {
-        const fileToSave = pug.render(theme, context);
-        const outputPath = path.join(__dirname, './../output/', contextObj.folder, '/', contextObj.slug, '/');
+        const pugHelper = pug.compile(theme, { filename: themeFileUrl });
+        const fileToSave =  pugHelper(context);
+        const outputPath = path.join(__dirname, './../output/', contextObj.folder, contextObj.slug);
         const outputFilePath = path.join(outputPath, 'index.html')
         fs.emptyDir(outputPath).then(() => {
           fs.outputFile(outputFilePath, fileToSave).then(() => {
@@ -109,11 +115,13 @@ const compilePages = () => {
 // compile single page
 const compileSinglePage = (pageName) => {
   return new Promise((resolve, reject) => {
+    const themeFileUrl = path.join(themeUrl, `${pageName}.pug`);
     getPageTheme(pageName).then(theme => {
       const pageContextUrl = path.join(__dirname, './../source/', `${pageName}.md`);
       let outputPath = path.join(__dirname, './../output/', pageName, '/');
       createContextFromFile(pageContextUrl).then(context => {
-        const fileToSave = pug.render(theme, context);
+        const pugHelper = pug.compile(theme, { filename: themeFileUrl });
+        const fileToSave = pugHelper(context);
         fs.emptyDir(outputPath).then(() => {
           if (pageName === 'home') {
             outputPath = path.join(__dirname, './../output/');
