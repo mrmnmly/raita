@@ -58,3 +58,5 @@ typings/
 .env
 
 api/output/
+api/theme/
+api/source/
