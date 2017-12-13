@@ -6,7 +6,7 @@ const path = require('path');
 const { getFile, getFiles } = require('./importHelpers');
 const { slugify } = require('./helpers');
 const { getListFolders, getListFolderContents, getPagesEntries } = require('./contentHelpers');
-const { getListTheme, getPageTheme, getListItemTheme, compileStyles, uglifyScripts } = require('./themeHelpers');
+const { getListTheme, getPageTheme, getListItemTheme, compileStyles, uglifyScripts, copyThemeAssets } = require('./themeHelpers');
 const { createContextForList, createContextFromFile } = require('./contextHelpers');
 
 const config = require('./../config.json');
@@ -137,7 +137,7 @@ const compileSinglePage = (pageName) => {
 
 const compileEverything = () => {
   return new Promise((resolve, reject) => {
-    Promise.all([compileLists(), compilePages(), compileStyles(), uglifyScripts()]).then(() => {
+    Promise.all([compileLists(), compilePages(), compileStyles(), uglifyScripts(), copyThemeAssets()]).then(() => {
       resolve();
     });
   });
