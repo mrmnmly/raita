@@ -27,6 +27,7 @@ app.use(function(req, res, next) {
   next();
 });
 
+
 // set view engine
 app.set('view engine', 'pug');
 
@@ -34,6 +35,8 @@ app.set('view engine', 'pug');
 app.set('/panel', path.join(__dirname, './../../panel/dist'));
 // set image assets path
 app.use('/public', express.static(path.join(__dirname, './../output/public')));
+// set static assets path (when previewing page)
+app.use('/static', express.static(path.join(__dirname, './../output/static')));
 // set current theme path folder
 app.set('theme', path.join(__dirname, './../theme/', config.theme));
 // set helper variable for pug template includes

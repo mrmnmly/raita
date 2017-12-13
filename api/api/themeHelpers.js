@@ -2,12 +2,13 @@ const fs = require('fs-extra');
 const wmd = require('wmd');
 const pug = require('pug');
 const path = require('path');
+var sass = require('node-sass');
 
-const {getDirectories, getFiles, getFile} = require('./importHelpers');
+const { getDirectories, getFiles, getFile, getFolderContents } = require('./importHelpers');
 const config = require('./../config.json');
 
 const getListThemes = () => {
-  const themePath = path.join(__dirname, './../theme/', config.theme, '/');
+  const themePath = path.join(__dirname, './../theme/', config.theme);
   return new Promise((resolve,reject) => {
     getDirectories(themePath).then(folders => {
       resolve(folders);
@@ -17,8 +18,8 @@ const getListThemes = () => {
 
 const getThemeFolderItems = (pathString) => {
   const folderPath = pathString === '/' ?
-    path.join(__dirname, './../theme/', config.theme, '/') :
-    path.join(__dirname, './../theme/', config.theme, pathString, '/');
+    path.join(__dirname, './../theme/', config.theme) :
+    path.join(__dirname, './../theme/', config.theme, pathString);
   return new Promise((resolve, reject) => {
     getFiles(folderPath).then(files => {
       const fullPathFiles = files.map(file => {
@@ -88,7 +89,7 @@ const getPageTheme = (pageName) => {
 // get theme for list item (based on item's parent folder)
 const getListItemTheme = (itemFolder) => {
   return new Promise((resolve, reject) => {
-    const themeUrl = path.join(__dirname, './../theme/', config.theme, '/', itemFolder, '/item.pug');
+    const themeUrl = path.join(__dirname, './../theme/', config.theme, itemFolder, '/item.pug');
     getFile(themeUrl).then(data => {
       resolve(data);
     });
@@ -98,12 +99,58 @@ const getListItemTheme = (itemFolder) => {
 // get theme for list (based on list name)
 const getListTheme = (listName) => {
   return new Promise((resolve, reject) => {
-    const themeUrl = path.join(__dirname, './../theme/', config.theme, '/', listName, '/list.pug');
+    const themeUrl = path.join(__dirname, './../theme/', config.theme, listName, '/list.pug');
     getFile(themeUrl).then(data => {
       resolve(data);
     });
   });
 }
+
+// compile single sass file to output folder as css
+const compileSassFile = (url) => {
+  const outputUrl = path.join(__dirname, './../output/static/css');
+  const fileName = path.parse(url).name;
+  const outputFileUrl = path.join(outputUrl, `${fileName}.css`);
+  return new Promise((resolve, reject) => {
+    sass.render({
+      file: url,
+      outFile: outputFileUrl,
+      sourceMap: true,
+      outputStyle: 'compressed',
+    }, function(err, result) {
+      if (err) {
+        console.warn('Error during sass compilation! ', err);
+        reject();
+      }
+      fs.outputFile(outputFileUrl, result.css, function(fileErr){
+        if(!fileErr){
+          resolve();
+        } else {
+          console.warn('Error during css file save! ', fileErr);
+          reject();
+        }
+      });
+    });
+  });
+}
+
+// compile sass styles to css
+const compileStyles = () => {
+  const urlToSass = path.join(__dirname, './../theme/', config.theme, '/static/scss');
+  return new Promise((resolve, reject) => {
+    getFolderContents(urlToSass).then((files) => {
+      let promises = [];
+      for (let file of files) {
+        const pathToFile = path.join(urlToSass, file);
+        promises.push(compileSassFile(pathToFile));
+      }
+      Promise.all(promises).then(() => {
+        console.log('All styles compiled!');
+        resolve();
+      })
+    });
+  });
+};
 
 
 module.exports.getListThemes = getListThemes;
@@ -113,3 +160,4 @@ module.exports.getThemeFile = getThemeFile;
 module.exports.getPageTheme = getPageTheme;
 module.exports.getListItemTheme = getListItemTheme;
 module.exports.getListTheme = getListTheme;
+module.exports.compileStyles = compileStyles;
