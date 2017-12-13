@@ -174,6 +174,23 @@ const uglifyScripts = () => {
   });
 };
 
+// copy theme static assets to output
+const copyThemeAssets = () => {
+  const themeAssetsUrl = path.join(__dirname, './../theme', config.theme, 'static/assets');
+  const outputAssetsUrl = path.join(__dirname, './../output/static/assets');
+  return new Promise((resolve, reject) => {
+    fs.copy(themeAssetsUrl, outputAssetsUrl, function (err) {
+      if (err) {
+        console.error('There was an error when compiling static theme assets! ', err);
+        reject();
+      } else {
+        console.log("Theme assets compiled!");
+        resolve();
+      }
+    });
+  });
+}
+
 
 module.exports.getListThemes = getListThemes;
 module.exports.getThemeFolderItems = getThemeFolderItems;
@@ -184,3 +201,4 @@ module.exports.getListItemTheme = getListItemTheme;
 module.exports.getListTheme = getListTheme;
 module.exports.compileStyles = compileStyles;
 module.exports.uglifyScripts = uglifyScripts;
+module.exports.copyThemeAssets = copyThemeAssets;
