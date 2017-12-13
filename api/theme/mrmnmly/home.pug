@@ -1,0 +1,33 @@
+html
+  head
+    include partials/head.pug
+    meta(name="keywords" content=context.metadata.tags)
+  body
+    include partials/nav.pug
+    section
+      .animated-section
+        .avatar-big
+        article.home-article
+          | !{context.html}
+    section
+      .animated-section.no-padding
+        article.services-article
+          .side-menu
+            h2.uppercase-text.centered-text
+              | My services
+            ul.services-list
+              li
+                a(href="#")
+                  | Programming
+              li
+                a(href="#")
+                  | Design
+              li
+                a(href="#")
+                  | Consulting
+              li
+                a(href="#")
+                  | Writing
+          .services-content
+
+    include partials/scripts.pug

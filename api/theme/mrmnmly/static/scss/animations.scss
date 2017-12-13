@@ -1,0 +1,32 @@
+@import './vars.scss';
+
+// @keyframes reveal {
+//   0% {
+//     background-color: $white;
+//     box-shadow: none;
+//     margin-top: 60px;
+//   }
+//   100% {
+//     background-color: $gray-light;
+//     box-shadow: $section-shadow;
+//     margin-top: 30px;
+//   }
+// }
+
+@mixin reveal-animation {
+  // animation-name: reveal;
+  // animation-duration: 1.5s;
+  background-color: $gray-light;
+  box-shadow: $section-shadow;
+  margin-top: 30px;
+  transition: 1.5s background-color, 1.5s box-shadow, 1.5s margin-top;
+}
+
+@mixin hide-animation {
+  background-color: $white;
+  box-shadow: none;
+  margin-top: 60px;
+  transition: 1.5s background-color, 1.5s box-shadow, 1.5s margin-top;
+}
+
+
