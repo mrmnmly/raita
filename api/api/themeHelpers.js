@@ -110,6 +110,7 @@ const getListTheme = (listName) => {
 // compile single sass file to output folder as css
 const compileSassFile = (url) => {
   const outputUrl = path.join(__dirname, './../output/static/css');
+  const srcFolder = path.parse(url).dir;
   const fileName = path.parse(url).name;
   const outputFileUrl = path.join(outputUrl, `${fileName}.css`);
   return new Promise((resolve, reject) => {
@@ -118,19 +119,21 @@ const compileSassFile = (url) => {
       outFile: outputFileUrl,
       sourceMap: true,
       outputStyle: 'compressed',
+      includePaths: [srcFolder],
     }, function(err, result) {
       if (err) {
         console.warn('Error during sass compilation! ', err);
         reject();
+      } else {
+        fs.outputFile(outputFileUrl, result.css, function(fileErr){
+          if(!fileErr){
+            resolve();
+          } else {
+            console.warn('Error during css file save! ', fileErr);
+            reject();
+          }
+        });
       }
-      fs.outputFile(outputFileUrl, result.css, function(fileErr){
-        if(!fileErr){
-          resolve();
-        } else {
-          console.warn('Error during css file save! ', fileErr);
-          reject();
-        }
-      });
     });
   });
 }
