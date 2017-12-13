@@ -3,6 +3,7 @@ const wmd = require('wmd');
 const pug = require('pug');
 const path = require('path');
 var sass = require('node-sass');
+var compressor = require('node-minify');
 
 const { getDirectories, getFiles, getFile, getFolderContents } = require('./importHelpers');
 const config = require('./../config.json');
@@ -152,6 +153,24 @@ const compileStyles = () => {
   });
 };
 
+// uglify theme js files
+const uglifyScripts = () => {
+  const themeScriptsPath = path.join(__dirname, './../theme/', config.theme, 'static/js');
+  const outputScriptsPath = path.join(__dirname, './../output/static/js/bundle.js');
+  return new Promise((resolve, reject) => {
+    let promise = compressor.minify({
+      compressor: 'uglifyjs',
+      input: `${themeScriptsPath}/*.js`,
+      output: outputScriptsPath,
+    });
+
+    return promise.then(() => {
+      console.log('All theme scripts uglified!');
+      resolve();
+    });
+  });
+};
+
 
 module.exports.getListThemes = getListThemes;
 module.exports.getThemeFolderItems = getThemeFolderItems;
@@ -161,3 +180,4 @@ module.exports.getPageTheme = getPageTheme;
 module.exports.getListItemTheme = getListItemTheme;
 module.exports.getListTheme = getListTheme;
 module.exports.compileStyles = compileStyles;
+module.exports.uglifyScripts = uglifyScripts;
