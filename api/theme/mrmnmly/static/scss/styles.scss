@@ -34,21 +34,19 @@ section {
 }
 
 .animated-section {
-  background: $gray-light;
+  @include hide-animation;
+
   box-sizing: border-box;
-  box-shadow: $section-shadow;
   border-radius: 3px;
   clear: both;
   display: block;
   float: none;
   height: calc(100vh - 80px);
-  margin: 30px auto 40px;
+  margin: 60px auto 40px;
   overflow: hidden;
   padding: 20px 90px 30px;
   position: relative;
   width: 95%;
-
-  @include hide-animation;  
 }
 
 section:hover .animated-section {
@@ -104,7 +102,6 @@ nav {
 
   .side-menu {
     align-items: stretch;
-    background: $gray-light;
     flex: 1;
     height: 100vh;
     overflow: hidden;
@@ -113,7 +110,6 @@ nav {
 
   .services-content {
     align-items: stretch;
-    background: $gray-light;
     flex: 3;
     height: 100vh;
   }
@@ -153,15 +149,16 @@ nav {
         text-align: center;
         text-decoration: none;
         text-transform: uppercase;
-        transition: 0.6s background-color, 0.2s transform ease;
+        transition: $service-list-item-transition;
         width: 100%;
+        transform: scale(1);
 
         &:hover {
           background-color: $white;
-          color: $black;
-          transition: 0.6s background-color, 0.2s transform ease;
-          z-index: $index-helper;
+          color: $gold;
+          transition: $service-list-item-transition;
           transform: scale(1.05);
+          z-index: $index-helper;
         }
       }
     }
