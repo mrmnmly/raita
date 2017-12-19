@@ -34,7 +34,6 @@ const compileSingleList = (listName) => {
     getListTheme(listName).then(theme => {
       getListFolderContents(listName).then(contents => {
         createContextForList(contents).then(listContext => {
-          console.log(listContext)
           const context = {
             context: {
               list: listContext
