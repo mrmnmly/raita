@@ -1,0 +1,30 @@
+@import './vars.scss';
+@import './nav.scss';
+@import './tiles.scss';
+@import './footer.scss';
+
+body {
+  background: $white;
+  color: $black;
+  font-family: "Roboto",sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+h1, h2, h3, h4 {
+  font-family: "Roboto",sans-serif;
+  font-weight: 100;
+}
+
+.wrapper {
+  display: block;
+  margin: 0 auto;
+  width: 1200px;
+  &.wrapper--main-container {
+    margin-top: 120px;
+  }
+}
