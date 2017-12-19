@@ -34,13 +34,14 @@ const compileSingleList = (listName) => {
     getListTheme(listName).then(theme => {
       getListFolderContents(listName).then(contents => {
         createContextForList(contents).then(listContext => {
+          console.log(listContext)
           const context = {
             context: {
               list: listContext
             }
           }
           const pugHelper = pug.compile(theme, { filename: themeFileUrl });
-          const fileToSave =  pugHelper(context);
+          const fileToSave =  pugHelper({...context, fileName: listName});
           const outputPath = path.join(__dirname, './../output/', listName, '/');
           fs.emptyDir(outputPath).then(() => {
             fs.outputFile(path.join(outputPath, 'index.html'), fileToSave).then(() => {
@@ -82,7 +83,7 @@ const compileListItem = (contextObj) => {
     createContextFromFile(contextObj.path).then(context => {
       getListItemTheme(contextObj.folder).then(theme => {
         const pugHelper = pug.compile(theme, { filename: themeFileUrl });
-        const fileToSave =  pugHelper(context);
+        const fileToSave =  pugHelper({...context, folder: contextObj.folder});
         const outputPath = path.join(__dirname, './../output/', contextObj.folder, contextObj.slug);
         const outputFilePath = path.join(outputPath, 'index.html')
         fs.emptyDir(outputPath).then(() => {
