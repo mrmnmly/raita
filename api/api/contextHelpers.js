@@ -25,7 +25,8 @@ const createContextFromFile = (fileUrl) => {
   return new Promise((resolve, reject) => {
     getFile(fileUrl).then(data => {
       const parsedData = {
-        context: wmd(data)
+        context: wmd(data),
+        fileName: path.parse(fileUrl).name,
       }
       resolve(parsedData);
     });
