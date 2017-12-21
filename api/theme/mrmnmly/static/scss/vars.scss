@@ -4,41 +4,38 @@ $blue-dark: #222f38;
 $gold-light: #c5b885;
 $gold: #907c57;
 $gray-light: #e7eaef;
-$purple: #7f1ae5;
 $white: #fff;
 
 // font sizes
-$normal-font-size: 16px;
-$h1-font-size: 2em;
-$home-title-font-size: 8em;
-$home-description-font-size: 3em;
+$font-size-regular: 16px;
+$font-size-gold-tile: 1.5em;
+$font-size-tile-h2: 2em;
+$font-size-list-tile-h2: 1.5em;
 
 // font families
-$oswald: 'Oswald', sans-serif;
 $roboto: 'Roboto', sans-serif;
 
 // margins
-$avatar-big-size: 60vh;  // needs to be before $avatar-big-margin because it's an dependency
-$avatar-big-margin: (100vh - $avatar-big-size) / 2;
-$section-header-margin: 10vh;
+$margin-micro: 2px;
+$margin-small: 5px;
+$margin-smaller: 10px;
+$margin-regular: 15px;
+$margin-bigger: 20px;
+$margin-big: 25px;
 
 // paddings
-$smallest-padding: 5px;
-$smaller-padding: 10px;
-$small-padding: 15px;
-$regular-padding: 20px;
-$big-padding: 25px;
-$bigger-padding: 30px;
-
+$padding-micro: 2px;
+$padding-small: 5px;
+$padding-smaller: 10px;
+$padding-regular: 15px;
+$padding-bigger: 20px;
+$padding-big: 25px;
 
 // z-indexes
 $index-helper: 2;
 $index-navbar: 10;
 
-// shadow variables
-$services-item-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
-$section-shadow: 0 15px 45px rgba(0, 0, 0, 0.45);
-
 // other helper variables
-$navbar-width: 93px;
-$service-list-item-transition: 0.2s background-color, 0.2s transform, 0.2s color;
+$tile-height: 250px;
+$content-tile-p-line-height: 1.9em;
+$container-width: 1200px;
