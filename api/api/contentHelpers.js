@@ -1,5 +1,4 @@
 const path = require('path');
-const wmd = require('wmd');
 
 const {getDirectories, getFiles, getFile} = require('./importHelpers');
 

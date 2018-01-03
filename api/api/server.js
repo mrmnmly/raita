@@ -98,7 +98,7 @@ app.get('/list-contents/', (req, res) => {
 app.get('/list-item/:listName/:fileName', (req, res) => {
   const url = path.join(__dirname, '/../source/' + req.params.listName, req.params.fileName);
 	getFile(url).then(fileData => {
-	  const md = wmd(fileData);
+	  const md = wmd(fileData, { preprocessors: [wmd.preprocessors.metadata, wmd.preprocessors.fencedCodeBlocks] });
   	res.status(200).json({
 			data: md
 		});
@@ -109,7 +109,7 @@ app.get('/list-item/:listName/:fileName', (req, res) => {
 app.get('/page/:fileName', (req, res) => {
   const url = path.join(__dirname, '/../source/', req.params.fileName)
 	getFile(url).then(fileData => {
-    const md = wmd(fileData);
+    const md = wmd(fileData, { preprocessors: [wmd.preprocessors.metadata, wmd.preprocessors.fencedCodeBlocks] });
     res.status(200).json({
 			data: md,
 		});
@@ -119,7 +119,7 @@ app.get('/page/:fileName', (req, res) => {
 // parse markdown to html
 app.post('/parse2html/', (req, res) => {
 	let txt = req.body.markdown;
-	txt = wmd(txt);
+	txt = wmd(txt, { preprocessors: [wmd.preprocessors.metadata, wmd.preprocessors.fencedCodeBlocks] });
 	res.status(200).json({
 		data: txt.html,
 	});

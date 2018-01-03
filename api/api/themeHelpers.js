@@ -1,5 +1,4 @@
 const fs = require('fs-extra');
-const wmd = require('wmd');
 const pug = require('pug');
 const path = require('path');
 var sass = require('node-sass');
@@ -117,7 +116,7 @@ const compileSassFile = (url) => {
     sass.render({
       file: url,
       outFile: outputFileUrl,
-      sourceMap: true,
+      sourceMap: false,
       outputStyle: 'compressed',
       includePaths: [srcFolder],
     }, function(err, result) {
