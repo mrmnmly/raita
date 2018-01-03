@@ -1,5 +1,4 @@
 const fs = require('fs-extra');
-const wmd = require('wmd');
 const pug = require('pug');
 const path = require('path');
 
@@ -34,7 +33,6 @@ const compileSingleList = (listName) => {
     getListTheme(listName).then(theme => {
       getListFolderContents(listName).then(contents => {
         createContextForList(contents).then(listContext => {
-          console.log(listContext)
           const context = {
             context: {
               list: listContext

@@ -12,7 +12,7 @@ const createContextForList = (folderContents) => {
     }
     Promise.all(promises).then(results => {
       for (let file in folderContents) {
-        const content = wmd(results[file]);
+        const content = wmd(results[file], { preprocessors: [wmd.preprocessors.metadata, wmd.preprocessors.fencedCodeBlocks] });
         folderContents[file].meta = content.metadata;
       }
       resolve(folderContents);
@@ -25,7 +25,7 @@ const createContextFromFile = (fileUrl) => {
   return new Promise((resolve, reject) => {
     getFile(fileUrl).then(data => {
       const parsedData = {
-        context: wmd(data),
+        context: wmd(data, { preprocessors: [wmd.preprocessors.metadata, wmd.preprocessors.fencedCodeBlocks] }),
         fileName: path.parse(fileUrl).name,
       }
       resolve(parsedData);

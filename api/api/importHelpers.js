@@ -1,6 +1,5 @@
 // file contains methods that parse content and theme files and save it into output folder
 const fs = require('fs-extra');
-const wmd = require('wmd');
 const pug = require('pug');
 const path = require('path');
 
