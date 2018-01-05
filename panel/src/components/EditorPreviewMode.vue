@@ -44,6 +44,9 @@ export default {
     color: $black;
     display: block;
     margin: $regular-margin auto;
+    max-height: 85vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
     padding: $regular-padding;
     width: $editor-width;
   }
