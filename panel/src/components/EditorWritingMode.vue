@@ -82,7 +82,7 @@ export default {
   border: none;
   display: block;
   font-size: $editor-font-size;
-  height: 80vh;
+  height: 70vh;
   line-height: 1.5em;
   margin: $big-margin auto;
   padding: $regular-padding;
