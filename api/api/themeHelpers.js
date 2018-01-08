@@ -161,7 +161,7 @@ const uglifyScripts = () => {
   const outputScriptsPath = path.join(__dirname, './../output/static/js/bundle.js');
   return new Promise((resolve, reject) => {
     let promise = compressor.minify({
-      compressor: 'no-compress',
+      compressor: 'gcc',
       input: `${themeScriptsPath}/*.js`,
       output: outputScriptsPath,
       options: {
